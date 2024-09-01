@@ -1,0 +1,9 @@
+.idea
+build
+.gradle
+.kotlin
+kotlin-js-store
+local.properties
+**/.DS_Store
+*/**/xcuserdata
+**/*xcworkspace
