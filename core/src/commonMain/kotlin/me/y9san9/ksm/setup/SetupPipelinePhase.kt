@@ -5,9 +5,9 @@ import me.y9san9.ksm.logger.popLogger
 import me.y9san9.ksm.logger.withTag
 import me.y9san9.pipeline.context.PipelineContext
 import me.y9san9.pipeline.context.require
-import me.y9san9.pipeline.phase.PipelinePhase
+import me.y9san9.pipeline._PipelineRunnable
 
-public object SetupPipelinePhase : PipelinePhase {
+public object SetupPipelinePhase : _PipelineRunnable {
     override val name: String = "SetupPipeline"
 
     override suspend fun proceed(context: PipelineContext): PipelineContext {

@@ -11,9 +11,9 @@ import me.y9san9.pipeline.PipelineSignal
 import me.y9san9.pipeline.context.PipelineContext
 import me.y9san9.pipeline.context.require
 import me.y9san9.pipeline.context.with
-import me.y9san9.pipeline.phase.PipelinePhase
+import me.y9san9.pipeline._PipelineRunnable
 
-public object StartCommandPipelinePhase : PipelinePhase {
+public object StartCommandPipelinePhase : _PipelineRunnable {
     override val name: String = "StartCommandPipeline"
 
     @OptIn(RiskFeature::class)

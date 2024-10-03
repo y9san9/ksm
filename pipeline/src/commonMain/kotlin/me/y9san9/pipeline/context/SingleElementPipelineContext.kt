@@ -1,5 +1,9 @@
 package me.y9san9.pipeline.context
 
+public fun <T> pipelineContextOf(element: PipelineElement<T>, value: T?): PipelineContext {
+    return SingleElementPipelineContext(element, value)
+}
+
 public class SingleElementPipelineContext<T>(
     public val element: PipelineElement<T>,
     public val value: T?

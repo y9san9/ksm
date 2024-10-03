@@ -7,7 +7,7 @@ aqueue = "1.0.8"
 ktgbotapi = "17.0.0"
 maven-publish = "0.29.0"
 
-ksm = "0.0.1"
+ksm = "0.0.1-dev001"
 
 [libraries]
 

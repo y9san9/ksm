@@ -19,4 +19,8 @@ dependencyResolutionManagement {
 
 includeBuild("build-logic")
 
-include("pipeline", "core", "ktgbotapi", "kotlinx-serialization-json")
+include(
+    "pipeline", "state", "router",
+    "fsm",
+    "core", "ktgbotapi", "kotlinx-serialization-json"
+)

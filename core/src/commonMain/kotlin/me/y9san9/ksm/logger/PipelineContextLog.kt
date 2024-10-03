@@ -1,6 +1,6 @@
 package me.y9san9.ksm.logger
 
-import me.y9san9.pipeline.builder.PipelineBuilder
+import me.y9san9.pipeline.PipelineBuilder
 import me.y9san9.pipeline.builder.with
 import me.y9san9.pipeline.context.PipelineContext
 import me.y9san9.pipeline.context.with
@@ -27,7 +27,7 @@ public fun PipelineContext.withLogger(
 public fun PipelineBuilder.withLogger(
     logger: Logger? = Logger
 ) {
-    with(LoggerPlugin.Logger, logger)
+    context.with(LoggerPlugin.Logger, logger)
 }
 
 public fun PipelineContext.withTag(tag: String): PipelineContext {

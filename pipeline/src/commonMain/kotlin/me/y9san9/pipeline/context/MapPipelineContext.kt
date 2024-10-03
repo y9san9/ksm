@@ -10,5 +10,5 @@ public class MapPipelineContext(public val map: Map<PipelineElement<*>, *>) : Pi
         return element in map && map[element] != null
     }
 
-    override fun toString(): String = "PipelineContext[$map]"
+    override fun toString(): String = "PipelineContext[${map.entries.joinToString(separator = ",") { (k, v) -> "${k.elementName()}=$v" }}]"
 }

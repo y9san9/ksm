@@ -8,7 +8,13 @@ public operator fun PipelineContext.plus(context: PipelineContext): PipelineCont
         return MapPipelineContext(map = leftMap + rightMap)
     }
 
-    return CombinedPipelineContext(contexts = this.contexts + context.contexts)
+    return CombinedPipelineContext(contexts = this.contexts + context.contexts).apply { checkRecursion() }
+}
+
+private fun CombinedPipelineContext.checkRecursion() {
+    this.contexts.forEach { context ->
+        if (context is CombinedPipelineContext) { context.checkRecursion() }
+    }
 }
 
 private class CombinedPipelineContext(val contexts: List<PipelineContext>) : PipelineContext {

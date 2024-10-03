@@ -1,28 +1,15 @@
 package me.y9san9.pipeline.phase
 
-import me.y9san9.pipeline.context.PipelineContext
+import me.y9san9.pipeline.context.*
 
-public fun interface PipelinePhase {
-    public val name: String? get() = null
-    public suspend fun proceed(context: PipelineContext): PipelineContext
-
-    public object Start : PipelinePhase {
-        override val name: String = "Start"
-        override suspend fun proceed(context: PipelineContext): PipelineContext = context
-    }
-
-    public object Finish : PipelinePhase {
-        override val name: String = "Finish"
-        override suspend fun proceed(context: PipelineContext): PipelineContext = context
-    }
+public interface PipelinePhase {
+    public val context: PipelineContext
 
     public companion object {
-        public fun of(name: String? = null, block: suspend (PipelineContext) -> PipelineContext = { it }): PipelinePhase {
+        public fun of(context: PipelineContext): PipelinePhase {
             return object : PipelinePhase {
-                override val name = name
-                override suspend fun proceed(context: PipelineContext): PipelineContext {
-                    return block(context)
-                }
+                override val context = context
+                override fun toString() = "PipelinePhase(context=$context)"
             }
         }
     }

@@ -3,13 +3,11 @@ package me.y9san9.ksm.ktgbotapi.plugin
 import dev.inmo.tgbotapi.types.toChatId
 import me.y9san9.ksm.events.EventsPlugin
 import me.y9san9.ksm.restore.RestorePlugin
-import me.y9san9.pipeline.PipelineSignal
 import me.y9san9.pipeline.context.PipelineContext
 import me.y9san9.pipeline.context.require
-import me.y9san9.pipeline.context.with
-import me.y9san9.pipeline.phase.PipelinePhase
+import me.y9san9.pipeline._PipelineRunnable
 
-public object TelegramSavePhase : PipelinePhase {
+public object TelegramSavePhase : _PipelineRunnable {
     override val name: String = "TelegramSave"
 
     override suspend fun proceed(context: PipelineContext): PipelineContext {

@@ -1,16 +1,12 @@
 package me.y9san9.ksm.state
 
-import kotlinx.coroutines.awaitCancellation
 import me.y9san9.ksm.restore.RestorePlugin
 import me.y9san9.ksm.route.RoutePlugin
 import me.y9san9.ksm.run.RunPlugin
 import me.y9san9.ksm.setup.SetupPlugin
-import me.y9san9.pipeline.Pipeline
-import me.y9san9.pipeline.builder.PipelineBuilder
-import me.y9san9.pipeline.builder.withPipeline
+import me.y9san9.pipeline.PipelineBuilder
 import me.y9san9.pipeline.context.PipelineElement
-import me.y9san9.pipeline.phase.PipelinePhase
-import me.y9san9.pipeline.plugin.PipelinePlugin
+import me.y9san9.pipeline._PipelineRunnable
 
 public object StatePlugin : PipelinePlugin {
     override fun apply(builder: PipelineBuilder) {
@@ -20,41 +16,41 @@ public object StatePlugin : PipelinePlugin {
             install(SetupPlugin)
             install(RestorePlugin)
 
-            withPipeline(RestorePlugin.RestorePipeline) {
-                insertPhaseAfter(PipelinePhase.Start.name, StateRestorePhase)
+            context.withPipeline(RestorePlugin.RestorePipeline) {
+                insertPhaseAfter(_PipelineRunnable.Start.name, StateRestorePhase)
                 insertPhaseAfter(StateRestorePhase.name, StateDataSetupPhase)
             }
-            withPipeline(RestorePlugin.SavePipeline) {
-                insertPhaseBefore(PipelinePhase.Finish.name, StateSavePhase)
+            context.withPipeline(RestorePlugin.SavePipeline) {
+                insertPhaseBefore(_PipelineRunnable.Finish.name, StateSavePhase)
             }
 
-            withPipeline(RoutePlugin.Pipeline) {
-                insertPhaseAfter(PipelinePhase.Start.name, StateRoutePhase)
+            context.withPipeline(RoutePlugin.Pipeline) {
+                insertPhaseAfter(_PipelineRunnable.Start.name, StateRoutePhase)
             }
 
-            withPipeline(SetupPlugin.Pipeline) {
-                insertPhaseAfter(PipelinePhase.Start.name, StateSetupPhase)
+            context.withPipeline(SetupPlugin.Pipeline) {
+                insertPhaseAfter(_PipelineRunnable.Start.name, StateSetupPhase)
             }
 
-            withPipeline(GotoPipeline) {
+            context.withPipeline(GotoPipeline) {
                 install(RunPlugin)
                 install(RoutePlugin)
                 install(SetupPlugin)
 
-                withPipeline(RoutePlugin.Pipeline) {
-                    insertPhaseAfter(PipelinePhase.Start.name, StateRoutePhase)
+                context.withPipeline(RoutePlugin.Pipeline) {
+                    insertPhaseAfter(_PipelineRunnable.Start.name, StateRoutePhase)
                 }
-                withPipeline(SetupPlugin.Pipeline) {
-                    insertPhaseAfter(PipelinePhase.Start.name, StateDataSetupPhase)
+                context.withPipeline(SetupPlugin.Pipeline) {
+                    insertPhaseAfter(_PipelineRunnable.Start.name, StateDataSetupPhase)
                 }
-                withPipeline(RunPlugin.Pipeline) {
-                    insertPhaseAfter(PipelinePhase.Start.name, StateTransitionPhase)
+                context.withPipeline(RunPlugin.Pipeline) {
+                    insertPhaseAfter(_PipelineRunnable.Start.name, StateTransitionPhase)
                     insertPhaseAfter(StateTransitionPhase.name, StateSavePipelinePhase)
                 }
             }
 
-            withPipeline(RunPlugin.Pipeline) {
-                insertPhaseAfter(PipelinePhase.Start.name, StateRunPhase)
+            context.withPipeline(RunPlugin.Pipeline) {
+                insertPhaseAfter(_PipelineRunnable.Start.name, StateRunPhase)
             }
         }
     }

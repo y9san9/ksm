@@ -4,9 +4,9 @@ import me.y9san9.ksm.route.RoutePlugin
 import me.y9san9.pipeline.context.PipelineContext
 import me.y9san9.pipeline.context.plus
 import me.y9san9.pipeline.context.require
-import me.y9san9.pipeline.phase.PipelinePhase
+import me.y9san9.pipeline._PipelineRunnable
 
-public object StateRoutePhase : PipelinePhase {
+public object StateRoutePhase : _PipelineRunnable {
     override val name: String = "StateRoute"
 
     override suspend fun proceed(context: PipelineContext): PipelineContext {

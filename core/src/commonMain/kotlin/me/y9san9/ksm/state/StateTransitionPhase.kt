@@ -1,12 +1,9 @@
 package me.y9san9.ksm.state
 
 import me.y9san9.pipeline.context.PipelineContext
-import me.y9san9.pipeline.context.require
-import me.y9san9.pipeline.context.with
-import me.y9san9.pipeline.phase.PipelinePhase
-import kotlin.coroutines.*
+import me.y9san9.pipeline._PipelineRunnable
 
-public object StateTransitionPhase : PipelinePhase {
+public object StateTransitionPhase : _PipelineRunnable {
     override val name: String = "StateTransition"
 
     override suspend fun proceed(context: PipelineContext): PipelineContext {

@@ -6,16 +6,16 @@ import me.y9san9.pipeline.builder.with
 import me.y9san9.pipeline.context.PipelineContext
 import me.y9san9.pipeline.context.require
 import me.y9san9.pipeline.context.with
-import me.y9san9.pipeline.context.withPipeline
-import me.y9san9.pipeline.phase.PipelinePhase
+import me.y9san9.pipeline.context.pipeline
+import me.y9san9.pipeline._PipelineRunnable
 
-public object StateSetupPhase : PipelinePhase {
+public object StateSetupPhase : _PipelineRunnable {
     override val name: String = "StateSetup"
 
     override suspend fun proceed(context: PipelineContext): PipelineContext {
-        return context.withPipeline(StatePlugin.GotoPipeline) {
-            with(RoutePlugin.List, context.require(RoutePlugin.List))
-            with(RestorePlugin.SavePipeline, context.require(RestorePlugin.SavePipeline))
+        return context.pipeline(StatePlugin.GotoPipeline) {
+            this.context.with(RoutePlugin.List, context.require(RoutePlugin.List))
+            this.context.with(RestorePlugin.SavePipeline, context.require(RestorePlugin.SavePipeline))
         }
     }
 }

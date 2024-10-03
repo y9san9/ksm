@@ -11,11 +11,9 @@ import me.y9san9.ksm.logger.withLogger
 import me.y9san9.ksm.restore.RestorePlugin
 import me.y9san9.ksm.setup.SetupPlugin
 import me.y9san9.ksm.state.StatePlugin
-import me.y9san9.pipeline.builder.PipelineBuilder
-import me.y9san9.pipeline.builder.withPipeline
+import me.y9san9.pipeline.PipelineBuilder
 import me.y9san9.pipeline.context.PipelineElement
-import me.y9san9.pipeline.phase.PipelinePhase
-import me.y9san9.pipeline.plugin.PipelinePlugin
+import me.y9san9.pipeline._PipelineRunnable
 
 public object TelegramPlugin : PipelinePlugin {
     override fun apply(builder: PipelineBuilder) {
@@ -24,23 +22,23 @@ public object TelegramPlugin : PipelinePlugin {
 
             install(EventsPlugin)
 
-            withPipeline(EventsPlugin.KeyPipeline) {
-                insertPhaseAfter(PipelinePhase.Start.name, TelegramKeyPhase)
+            context.withPipeline(EventsPlugin.KeyPipeline) {
+                insertPhaseAfter(_PipelineRunnable.Start.name, TelegramKeyPhase)
             }
 
-            withPipeline(EventsPlugin.Pipeline) {
+            context.withPipeline(EventsPlugin.Pipeline) {
                 install(StatePlugin)
                 install(StartCommandPlugin)
                 install(JsonPlugin)
 
-                withPipeline(RestorePlugin.RestorePipeline) {
+                context.withPipeline(RestorePlugin.RestorePipeline) {
                     insertPhaseBefore(JsonDecodePhase.name, TelegramRestorePhase)
                 }
-                withPipeline(RestorePlugin.SavePipeline) {
+                context.withPipeline(RestorePlugin.SavePipeline) {
                     insertPhaseAfter(JsonEncodePhase.name, TelegramSavePhase)
                 }
-                withPipeline(SetupPlugin.Pipeline) {
-                    insertPhaseAfter(PipelinePhase.Start.name, TelegramSetupPhase)
+                context.withPipeline(SetupPlugin.Pipeline) {
+                    insertPhaseAfter(_PipelineRunnable.Start.name, TelegramSetupPhase)
                 }
             }
         }
@@ -48,4 +46,5 @@ public object TelegramPlugin : PipelinePlugin {
 
     public object Data : PipelineElement<StateData>
     public object Storage : PipelineElement<TelegramStorage>
+    public object MainPipeline : PipelineElement<Pipeline>
 }

@@ -1,27 +1,27 @@
 package me.y9san9.ksm.json
 
 import me.y9san9.ksm.restore.RestorePlugin
-import me.y9san9.pipeline.builder.PipelineBuilder
+import me.y9san9.pipeline.PipelineBuilder
 import me.y9san9.pipeline.builder.with
-import me.y9san9.pipeline.builder.withPipeline
 import me.y9san9.pipeline.context.PipelineElement
-import me.y9san9.pipeline.context.dependsOn
-import me.y9san9.pipeline.phase.PipelinePhase
+import me.y9san9.pipeline.insertPhaseAfter
+import me.y9san9.pipeline._PipelineRunnable
+import me.y9san9.pipeline.plugin.dependsOn
 import me.y9san9.pipeline.plugin.PipelinePlugin
 
 public object JsonPlugin : PipelinePlugin {
-    override fun apply(builder: PipelineBuilder) {
+    public fun apply(builder: PipelineBuilder) {
         with(builder) {
             context.dependsOn(RestorePlugin)
 
-            withPipeline(RestorePlugin.RestorePipeline) {
-                insertPhaseAfter(PipelinePhase.Start.name, JsonDecodePhase)
+            context.withPipeline(RestorePlugin.RestorePipeline) {
+                insertPhaseAfter(_PipelineRunnable.Start.name, JsonDecodePhase)
             }
-            withPipeline(RestorePlugin.SavePipeline) {
-                insertPhaseBefore(PipelinePhase.Finish.name, JsonEncodePhase)
+            context.withPipeline(RestorePlugin.SavePipeline) {
+                insertPhaseBefore(_PipelineRunnable.Finish.name, JsonEncodePhase)
             }
 
-            with(Json, kotlinx.serialization.json.Json)
+            context.with(Json, kotlinx.serialization.json.Json)
         }
     }
 

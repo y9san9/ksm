@@ -5,8 +5,7 @@ import me.y9san9.ksm.ktgbotapi.BotControllerBuilder
 import me.y9san9.ksm.route.PipelineRouteList
 import me.y9san9.ksm.route.RoutePlugin
 import me.y9san9.ksm.state.StatePlugin
-import me.y9san9.pipeline.builder.with
-import me.y9san9.pipeline.builder.withPipeline
+import me.y9san9.pipeline.builder.pipeline
 import me.y9san9.pipeline.context.PipelineContext
 import me.y9san9.pipeline.context.require
 
@@ -27,7 +26,7 @@ public inline fun BotControllerBuilder.routing(
 
     val list = PipelineRouteList(initial, routing.routes)
 
-    builder.withPipeline(EventsPlugin.Pipeline) {
+    builder.pipeline(EventsPlugin.Pipeline) {
         with(RoutePlugin.List, list)
     }
 }

@@ -4,15 +4,15 @@ import me.y9san9.ksm.state.StatePlugin
 import me.y9san9.pipeline.builder.with
 import me.y9san9.pipeline.context.PipelineContext
 import me.y9san9.pipeline.context.require
-import me.y9san9.pipeline.context.withPipeline
-import me.y9san9.pipeline.phase.PipelinePhase
+import me.y9san9.pipeline.context.pipeline
+import me.y9san9.pipeline._PipelineRunnable
 
-public object EventsSetupPhase : PipelinePhase {
+public object EventsSetupPhase : _PipelineRunnable {
     override val name: String = "EventsGoto"
 
     override suspend fun proceed(context: PipelineContext): PipelineContext {
-        return context.withPipeline(StatePlugin.GotoPipeline) {
-            with(EventsPlugin.Event, context.require(EventsPlugin.Event))
+        return context.pipeline(StatePlugin.GotoPipeline) {
+            this.context.with(EventsPlugin.Event, context.require(EventsPlugin.Event))
         }
     }
 }
