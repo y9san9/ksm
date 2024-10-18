@@ -2,7 +2,7 @@ package me.y9san9.pipeline.context
 
 import me.y9san9.pipeline.plugin.PipelinePlugin
 
-public interface PipelineElement<@Suppress("unused") T> {
+public interface PipelineElement<@Suppress("unused") T : Any> {
     public fun elementName(): String {
         if (this is PipelinePlugin) { return name }
         var qualifiedName = this::class.qualifiedName ?: return toString()

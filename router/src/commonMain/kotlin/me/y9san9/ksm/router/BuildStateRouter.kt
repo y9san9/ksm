@@ -9,6 +9,6 @@ public inline fun buildStateRouter(
     return builder.build()
 }
 
-public inline fun StateRouter.build(block: StateRouterBuilder.() -> Unit): StateRouter {
+public inline fun StateRouter?.build(block: StateRouterBuilder.() -> Unit): StateRouter {
     return buildStateRouter(base = this, block = block)
 }

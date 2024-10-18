@@ -32,5 +32,5 @@ public suspend fun Pipeline.proceed(
         acc = phase.proceed(acc)
     }
 
-    return acc
+    return acc.subject
 }

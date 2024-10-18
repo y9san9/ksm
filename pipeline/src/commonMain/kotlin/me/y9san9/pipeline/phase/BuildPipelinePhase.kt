@@ -9,7 +9,7 @@ public inline fun buildPipelinePhase(
     return builder.build()
 }
 
-public inline fun PipelinePhase.build(
+public inline fun PipelinePhase?.build(
     block: PipelinePhaseBuilder.() -> Unit
 ): PipelinePhase {
     return buildPipelinePhase(base = this, block = block)

@@ -28,5 +28,5 @@ suspend fun main() {
     }
 
     println(fsm.docs().prettyString())
-//    fsm.run()
+    fsm.run()
 }

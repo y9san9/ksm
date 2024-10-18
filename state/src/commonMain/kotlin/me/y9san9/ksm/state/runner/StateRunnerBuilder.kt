@@ -1,6 +1,6 @@
 package me.y9san9.ksm.state.runner
 
-import me.y9san9.ksm.state.runner.plugin.installStateRunnerBase
+import me.y9san9.ksm.state.runner.plugin.installStateRunner
 import me.y9san9.pipeline.annotation.PipelineDsl
 import me.y9san9.pipeline.context.MutablePipelineContext
 import me.y9san9.pipeline.context.PipelineContext
@@ -14,7 +14,7 @@ public interface StateRunnerBuilder {
     public companion object {
         public fun of(): StateRunnerBuilder {
             return of(PipelineContext.Empty).apply {
-                installStateRunnerBase()
+                installStateRunner()
             }
         }
 

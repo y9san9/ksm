@@ -11,6 +11,6 @@ public inline fun buildStateList(
     return routing.build()
 }
 
-public inline fun StateList.build(block: StateRouting.() -> Unit): StateList {
+public inline fun StateList?.build(block: StateRouting.() -> Unit): StateList {
     return buildStateList(base = this, block = block)
 }

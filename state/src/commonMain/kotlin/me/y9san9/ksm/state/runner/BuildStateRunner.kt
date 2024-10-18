@@ -9,6 +9,6 @@ public inline fun buildStateRunner(
     return builder.build()
 }
 
-public fun StateRunner.build(block: StateRunnerBuilder.() -> Unit): StateRunner {
+public fun StateRunner?.build(block: StateRunnerBuilder.() -> Unit): StateRunner {
     return buildStateRunner(base = this, block = block)
 }

@@ -3,7 +3,7 @@ package me.y9san9.ksm.fsm.navigation
 import me.y9san9.ksm.fsm.FSM
 import me.y9san9.ksm.fsm.FSMNavigator
 import me.y9san9.ksm.fsm.looper.Looper
-import me.y9san9.ksm.router.descriptor.StateDescriptor
+import me.y9san9.ksm.router.StateDescriptor
 import me.y9san9.ksm.router.descriptor.StateDescriptorBuilder
 import me.y9san9.ksm.router.descriptor.build
 import me.y9san9.ksm.router.descriptor.buildStateDescriptor

@@ -21,6 +21,10 @@ includeBuild("build-logic")
 
 include(
     "pipeline", "state", "router",
-    "fsm",
+    "fsm", "telegram"
+)
+
+// Deprecated
+include(
     "core", "ktgbotapi", "kotlinx-serialization-json"
 )

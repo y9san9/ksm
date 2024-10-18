@@ -1,6 +1,6 @@
 package me.y9san9.ksm.fsm.navigation
 
-import me.y9san9.ksm.fsm.navigation.plugin.installStateNavigatorBase
+import me.y9san9.ksm.fsm.navigation.plugin.installStateNavigator
 import me.y9san9.pipeline.annotation.PipelineDsl
 import me.y9san9.pipeline.context.MutablePipelineContext
 import me.y9san9.pipeline.context.PipelineContext
@@ -14,7 +14,7 @@ public interface StateNavigatorBuilder {
     public companion object {
         public fun of(): StateNavigatorBuilder {
             return of(PipelineContext.Empty).apply {
-                installStateNavigatorBase()
+                installStateNavigator()
             }
         }
 

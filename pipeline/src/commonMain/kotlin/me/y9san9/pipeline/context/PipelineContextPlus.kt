@@ -21,7 +21,7 @@ private class CombinedPipelineContext(val contexts: List<PipelineContext>) : Pip
     override fun contains(element: PipelineElement<*>): Boolean {
         return contexts.any { context -> element in context }
     }
-    override fun <T> get(element: PipelineElement<T>): T? {
+    override fun <T : Any> get(element: PipelineElement<T>): T? {
         for (context in contexts.asReversed()) {
             if (element in context) return context[element]
         }

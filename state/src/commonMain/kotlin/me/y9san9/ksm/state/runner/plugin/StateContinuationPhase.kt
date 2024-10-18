@@ -6,9 +6,6 @@ import me.y9san9.ksm.state.continuation.StateContinuation
 import me.y9san9.pipeline.context.build
 import me.y9san9.pipeline.context.require
 import me.y9san9.pipeline.context.set
-import me.y9san9.pipeline.docs.describe
-import me.y9san9.pipeline.docs.description
-import me.y9san9.pipeline.docs.subjectDescription
 import me.y9san9.pipeline.phase.PipelinePhase
 import me.y9san9.pipeline.phase.buildPipelinePhase
 import me.y9san9.pipeline.phase.name
@@ -18,11 +15,6 @@ import kotlin.coroutines.*
 
 public val StateContinuationPhase: PipelinePhase = buildPipelinePhase {
     name = "StateContinuation"
-
-    describe {
-        description = "Decorates StateAction making it possible to invoke StateScope.finish()"
-        subjectDescription = listOf("StateAction - required. Action to decorate")
-    }
 
     runnable {
         val action = subject.require(StateAction)

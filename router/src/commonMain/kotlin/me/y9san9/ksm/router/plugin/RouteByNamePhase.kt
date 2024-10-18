@@ -1,40 +1,30 @@
 package me.y9san9.ksm.router.plugin
 
-import me.y9san9.ksm.router.descriptor.StateDescriptorName
-import me.y9san9.ksm.router.StateList
 import me.y9san9.ksm.state.name
 import me.y9san9.pipeline.context.require
-import me.y9san9.pipeline.docs.*
-import me.y9san9.pipeline.docs.description
 import me.y9san9.pipeline.phase.*
 import me.y9san9.pipeline.phase.name
 import me.y9san9.pipeline.phase.runnable
+import me.y9san9.pipeline.subject.setSubject
 import me.y9san9.pipeline.subject.subject
 
 public val RouteByNamePhase: PipelinePhase = buildPipelinePhase {
     name = "RouteByName"
 
-    describe {
-        description = "Selects specific State from StateList by name. Returned subject is PipelineContext of the selected State"
-
-        subjectDescription = listOf(
-            "StateDescriptorName: String? - state name to launch or null to launch initial",
-            "StateList: StateList - list of states to select from"
-        )
-    }
-
     runnable {
-        val name = subject[StateDescriptorName]
-        val states = subject.require(StateList) { "StateDescriptor must contain StateList to select from" }
+        val states = subject.require(StateRouterBase.Subject.StateList)
+        val descriptor = subject[StateRouterBase.Subject.Descriptor]
+        val name = descriptor?.id
 
-        if (name == null) {
-            subject = states.initial.context
+        // todo: refactor to subject for StateRunner
+        if (descriptor == null) {
+            setSubject(StateRouterBase.Subject.State, states.initial)
             return@runnable
         }
 
         for (state in states.list) {
             if (state.name == name) {
-                subject = state.context
+                setSubject(StateRouterBase.Subject.State, state)
                 return@runnable
             }
         }

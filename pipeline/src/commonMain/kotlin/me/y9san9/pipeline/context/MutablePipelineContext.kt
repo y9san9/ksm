@@ -1,6 +1,6 @@
 package me.y9san9.pipeline.context
 
-public fun mutablePipelineContextOf(context: PipelineContext): MutablePipelineContext {
+public fun mutablePipelineContextOf(context: PipelineContext = PipelineContext.Empty): MutablePipelineContext {
     if (context is MutablePipelineContext) {
         error("This is an error to create MutablePipelineContext with another MutablePipelineContext")
     }
@@ -20,14 +20,14 @@ public interface MutablePipelineContext : PipelineContext {
     override var context: PipelineContext
 
     override fun contains(element: PipelineElement<*>): Boolean = element in context
-    override fun <T> get(element: PipelineElement<T>): T? = context[element]
+    override fun <T : Any> get(element: PipelineElement<T>): T? = context[element]
 }
 
 public fun MutablePipelineContext.toPipelineContext(): PipelineContext {
     return context.context
 }
 
-public operator fun <T> MutablePipelineContext.set(
+public operator fun <T : Any> MutablePipelineContext.set(
     element: PipelineElement<T>,
     value: T?
 ) {

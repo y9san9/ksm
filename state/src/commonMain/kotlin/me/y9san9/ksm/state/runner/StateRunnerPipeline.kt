@@ -12,8 +12,8 @@ import me.y9san9.pipeline.proceed
 
 public object StateRunnerPipeline : PipelineElement<Pipeline>
 
-public suspend fun StateRunner.run(state: State) {
-    context.require(StateRunnerPipeline).proceed(context, state.context)
+public suspend fun StateRunner.proceed(subject: PipelineContext): PipelineContext {
+    return context.require(StateRunnerPipeline).proceed(context, subject)
 }
 
 public inline fun StateRunnerBuilder.pipeline(block: PipelineBuilder.() -> Unit) {

@@ -9,6 +9,6 @@ public inline fun buildStateNavigator(
     return builder.build()
 }
 
-public inline fun StateNavigator.build(block: StateNavigatorBuilder.() -> Unit): StateNavigator {
+public inline fun StateNavigator?.build(block: StateNavigatorBuilder.() -> Unit): StateNavigator {
     return buildStateNavigator(base = this, block = block)
 }

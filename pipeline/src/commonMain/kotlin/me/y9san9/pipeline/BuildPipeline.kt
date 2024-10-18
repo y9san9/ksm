@@ -9,7 +9,7 @@ public inline fun buildPipeline(
     return builder.build()
 }
 
-public inline fun Pipeline.build(
+public inline fun Pipeline?.build(
     block: PipelineBuilder.() -> Unit = {}
 ): Pipeline {
     return buildPipeline(base = this, block)

@@ -6,6 +6,6 @@ public inline fun <T : PipelinePlugin> MutablePipelineContext.install(
     plugin: T,
     block: T.() -> Unit
 ) {
-    register(plugin)
+    install(plugin)
     block(plugin)
 }

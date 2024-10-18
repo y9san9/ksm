@@ -1,10 +1,10 @@
 package me.y9san9.pipeline.context
 
-public fun <T> pipelineContextOf(element: PipelineElement<T>, value: T?): PipelineContext {
+public fun <T : Any> pipelineContextOf(element: PipelineElement<T>, value: T?): PipelineContext {
     return SingleElementPipelineContext(element, value)
 }
 
-public class SingleElementPipelineContext<T>(
+public class SingleElementPipelineContext<T : Any>(
     public val element: PipelineElement<T>,
     public val value: T?
 ) : PipelineContext {
@@ -13,7 +13,7 @@ public class SingleElementPipelineContext<T>(
     }
 
     @Suppress("UNCHECKED_CAST")
-    override fun <T> get(element: PipelineElement<T>): T? {
+    override fun <T : Any> get(element: PipelineElement<T>): T? {
         if (this.element != element) return null
         return value as T
     }

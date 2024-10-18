@@ -5,11 +5,8 @@ import me.y9san9.ksm.fsm.looper.Looper
 import me.y9san9.ksm.fsm.navigation.buildStateNavigator
 import me.y9san9.ksm.router.buildStateRouter
 import me.y9san9.ksm.state.runner.buildStateRunner
+import me.y9san9.pipeline.buildPipeline
 import me.y9san9.pipeline.context.set
-import me.y9san9.pipeline.docs.describe
-import me.y9san9.pipeline.docs.description
-import me.y9san9.pipeline.docs.name
-import me.y9san9.pipeline.docs.plugin.installPipelineDocs
 import me.y9san9.pipeline.insertPhaseLast
 import me.y9san9.pipeline.plugin.PipelinePlugin
 
@@ -18,14 +15,7 @@ public object FSMBasePlugin : PipelinePlugin {
 
     public fun apply(builder: FSMBuilder) {
         with(builder) {
-            pipeline {
-                installPipelineDocs()
-
-                describe {
-                    name = "FSMPipeline"
-                    description = "Run this pipeline to start FSM"
-                }
-
+            context[FSMPipeline] = buildPipeline {
                 insertPhaseLast(FSMRoutePhase)
                 insertPhaseLast(FSMRunPhase)
                 insertPhaseLast(FSMLooperPhase)
