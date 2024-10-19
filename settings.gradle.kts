@@ -21,7 +21,7 @@ includeBuild("build-logic")
 
 include(
     "pipeline", "state", "router",
-    "fsm", "telegram"
+    "telegram"
 )
 
 // Deprecated

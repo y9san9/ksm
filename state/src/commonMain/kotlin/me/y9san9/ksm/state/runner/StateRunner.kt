@@ -8,15 +8,10 @@ public interface StateRunner {
 
     public companion object {
         public fun of(context: PipelineContext): StateRunner {
-            require(context)
             return object : StateRunner {
                 override val context = context
                 override fun toString() = "StateRunner(context=$context)"
             }
-        }
-
-        public fun require(context: PipelineContext) {
-            context.require(StateRunnerPipeline)
         }
     }
 }

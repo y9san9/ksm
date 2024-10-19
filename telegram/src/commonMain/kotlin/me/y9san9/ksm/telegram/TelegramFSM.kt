@@ -1,14 +1,25 @@
 package me.y9san9.ksm.telegram
 
 import dev.inmo.tgbotapi.bot.TelegramBot
+import dev.inmo.tgbotapi.extensions.utils.updates.retrieving.longPolling
 import dev.inmo.tgbotapi.types.update.MessageUpdate
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import me.y9san9.ksm.telegram.plugin.TelegramFSMBase
-import me.y9san9.ksm.telegram.plugin.installTelegramFSM
 import me.y9san9.pipeline.context.*
+import me.y9san9.pipeline.plugin.install
 import me.y9san9.pipeline.proceed
 
 public class TelegramFSM(public val context: PipelineContext) {
+    public suspend fun longPolling(bot: TelegramBot) {
+        coroutineScope {
+            bot.longPolling {
+                launch { run(bot, messagesFlow) }
+            }
+        }
+    }
+
     public suspend fun run(bot: TelegramBot, messageUpdates: Flow<MessageUpdate>) {
         val subject = buildPipelineContext {
             this[TelegramFSMBase.Subject.Bot] = bot
@@ -26,7 +37,7 @@ public class TelegramFSM(public val context: PipelineContext) {
         public val context: MutablePipelineContext = mutablePipelineContextOf(context)
 
         public constructor() : this(PipelineContext.Empty) {
-            installTelegramFSM()
+            context.install(TelegramFSMBase)
         }
 
         public fun build(): TelegramFSM {

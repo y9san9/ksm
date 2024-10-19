@@ -20,7 +20,12 @@ public data class StateDescriptor(
         }
 
         public fun encode(from: StateDescriptor): StateData.Map {
-            TODO()
+            val map = mapOf(
+                ID to StateData.String(from.id),
+                PARAMETERS to from.parameters,
+                DATA to from.data
+            )
+            return StateData.Map(map)
         }
     }
 }

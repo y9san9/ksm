@@ -2,7 +2,14 @@ package me.y9san9.ksm.telegram
 
 import dev.inmo.tgbotapi.bot.TelegramBot
 import dev.inmo.tgbotapi.types.update.MessageUpdate
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import me.y9san9.ksm.state.data.StateData
+import me.y9san9.ksm.telegram.plugin.TelegramFSMBase.Subject
+import me.y9san9.pipeline.context.require
+import me.y9san9.pipeline.context.set
+import me.y9san9.pipeline.subject.setSubject
+import me.y9san9.pipeline.subject.subject
 
 public interface TelegramStorage {
     public suspend fun restore(
@@ -13,6 +20,23 @@ public interface TelegramStorage {
     public suspend fun save(
         bot: TelegramBot,
         update: MessageUpdate,
-        data: StateData?
+        data: StateData.Map?
     )
+
+    public class InMemory : TelegramStorage {
+        private val map = mutableMapOf<Long, StateData.Map?>()
+        private val mutex = Mutex()
+
+        override suspend fun restore(bot: TelegramBot, update: MessageUpdate): StateData.Map? {
+            return mutex.withLock { map[update.data.chat.id.chatId.long] }
+        }
+
+        override suspend fun save(bot: TelegramBot, update: MessageUpdate, data: StateData.Map?) {
+            mutex.withLock { map[update.data.chat.id.chatId.long] = data }
+        }
+    }
 }
+
+public var TelegramFSM.Builder.storage: TelegramStorage
+    get() = context.subject.require(Subject.Storage)
+    set(value) { context.setSubject(Subject.Storage, value) }

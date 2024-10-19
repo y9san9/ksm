@@ -8,7 +8,6 @@ dependencies {
     commonMainImplementation(projects.pipeline)
     commonMainImplementation(projects.state)
     commonMainImplementation(projects.router)
-    commonMainImplementation(projects.fsm)
     commonMainImplementation(libs.kotlinx.coroutines.core)
     commonMainImplementation(libs.ktgbotapi)
     commonMainImplementation(libs.aqueue)

@@ -27,7 +27,7 @@ public fun <T : Any> MutablePipelineContext.setSubject(
 }
 
 public var MutablePipelineContext.subject: PipelineContext
-    get() = require(PipelineSubject) { "Subject is not present on current context" }
+    get() = this[PipelineSubject] ?: PipelineContext.Empty
     set(value) {
         if (value is MutablePipelineContext) error("PipelineSubject must be immutable")
         this[PipelineSubject] = value

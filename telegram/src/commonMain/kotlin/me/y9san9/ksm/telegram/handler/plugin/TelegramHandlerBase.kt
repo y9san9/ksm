@@ -7,6 +7,7 @@ import me.y9san9.ksm.router.StateRouter
 import me.y9san9.ksm.router.buildStateRouter
 import me.y9san9.ksm.state.State
 import me.y9san9.ksm.state.runner.StateRunner
+import me.y9san9.ksm.state.runner.buildStateRunner
 import me.y9san9.ksm.telegram.TelegramStorage
 import me.y9san9.ksm.telegram.handler.TelegramHandler
 import me.y9san9.pipeline.buildPipeline
@@ -18,19 +19,19 @@ import me.y9san9.pipeline.plugin.PipelinePlugin
 import me.y9san9.pipeline.plugin.install
 import me.y9san9.pipeline.subject.setSubject
 
-public fun TelegramHandler.Builder.installTelegramHandler() {
-    context.install(TelegramHandlerBase)
-}
-
 public object TelegramHandlerBase : PipelinePlugin {
     override val name: String = "TelegramHandler"
 
     override fun apply(context: MutablePipelineContext) {
         context[Config.Pipeline] = buildPipeline {
             insertPhaseLast(RestorePhase)
+            insertPhaseLast(RoutePhase)
+            insertPhaseLast(RunPhase)
+            insertPhaseLast(NavigatePhase)
             insertPhaseLast(SavePhase)
         }
         context.setSubject(Subject.Router, buildStateRouter())
+        context.setSubject(Subject.Runner, buildStateRunner())
     }
 
     public object Config {

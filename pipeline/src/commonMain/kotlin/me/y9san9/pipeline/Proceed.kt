@@ -17,7 +17,7 @@ public suspend fun Pipeline.proceed(
 ): PipelineContext {
     var acc = this.context.build {
         this.context += parent
-        this.subject = subject
+        this.subject += subject
     }
 
     val phases = this.context.require(PipelinePhaseList)

@@ -2,7 +2,6 @@ package me.y9san9.ksm.routing
 
 import me.y9san9.ksm.router.StateList
 import me.y9san9.ksm.state.State
-import me.y9san9.ksm.state.StateBuilder
 import me.y9san9.ksm.state.buildState
 import me.y9san9.ksm.state.name
 
@@ -24,13 +23,14 @@ public interface StateRouting {
     }
 }
 
-public inline fun StateRouting.state(block: StateBuilder.() -> Unit) {
+public inline fun StateRouting.state(block: State.Builder.() -> Unit) {
     states += buildState(block = block)
 }
 
 public fun StateRouting.build(): StateList {
+    if (initial == null) error("Please setup initial state in routing")
     return StateList(
-        initial = states.find { state -> state.name == initial } ?: error("Can't find state named $initial"),
+        initial = states.find { state -> state.name == initial } ?: error("Can't find state named '$initial'"),
         list = states.toList()
     )
 }

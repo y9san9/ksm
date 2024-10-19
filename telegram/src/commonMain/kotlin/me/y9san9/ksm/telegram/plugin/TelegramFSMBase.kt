@@ -4,23 +4,18 @@ import dev.inmo.tgbotapi.bot.TelegramBot
 import dev.inmo.tgbotapi.types.update.MessageUpdate
 import kotlinx.coroutines.flow.Flow
 import me.y9san9.aqueue.AQueue
-import me.y9san9.ksm.telegram.TelegramFSM
 import me.y9san9.ksm.telegram.TelegramStorage
 import me.y9san9.ksm.telegram.handler.TelegramHandler
 import me.y9san9.ksm.telegram.handler.buildTelegramHandler
-import me.y9san9.ksm.telegram.handler.plugin.TelegramHandlerBase
 import me.y9san9.pipeline.buildPipeline
 import me.y9san9.pipeline.context.MutablePipelineContext
 import me.y9san9.pipeline.context.PipelineElement
 import me.y9san9.pipeline.context.set
 import me.y9san9.pipeline.insertPhaseLast
 import me.y9san9.pipeline.plugin.PipelinePlugin
-import me.y9san9.pipeline.plugin.install
 import me.y9san9.pipeline.subject.setSubject
 
-public fun TelegramFSM.Builder.installTelegramFSM() {
-    context.install(TelegramFSMBase)
-}
+// [TelegramUpdate] -> [State] -> run() -> Storage.save() ->
 
 public object TelegramFSMBase : PipelinePlugin {
     override val name: String = "Telegram"
@@ -43,5 +38,7 @@ public object TelegramFSMBase : PipelinePlugin {
         public object AQueue : PipelineElement<me.y9san9.aqueue.AQueue>
         public object Bot : PipelineElement<TelegramBot>
         public object UpdateFlow : PipelineElement<Flow<MessageUpdate>>
+        public object StateList : PipelineElement<me.y9san9.ksm.router.StateList>
+        public object Storage : PipelineElement<TelegramStorage>
     }
 }

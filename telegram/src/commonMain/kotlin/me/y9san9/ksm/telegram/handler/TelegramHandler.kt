@@ -1,8 +1,8 @@
 package me.y9san9.ksm.telegram.handler
 
 import me.y9san9.ksm.telegram.handler.plugin.TelegramHandlerBase
-import me.y9san9.ksm.telegram.handler.plugin.installTelegramHandler
 import me.y9san9.pipeline.context.*
+import me.y9san9.pipeline.plugin.install
 import me.y9san9.pipeline.proceed
 
 public class TelegramHandler(public val context: PipelineContext) {
@@ -15,7 +15,7 @@ public class TelegramHandler(public val context: PipelineContext) {
         public val context: MutablePipelineContext = mutablePipelineContextOf(context)
 
         public constructor() : this(PipelineContext.Empty) {
-            installTelegramHandler()
+            context.install(TelegramHandlerBase)
         }
 
         public fun build(): TelegramHandler {

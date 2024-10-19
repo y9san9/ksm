@@ -18,7 +18,7 @@ public val RunPhase: PipelinePhase = buildPipelinePhase {
         val runner = subject.require(TelegramHandlerBase.Subject.Runner)
         val state = subject.require(TelegramHandlerBase.Subject.State)
 
-        val stateAction = state.context.require(StateBase.Config.Action)
+        val stateAction = state.context.require(StateBase.Config.Handler)
 
         setSubject(StateRunnerBase.Subject.StateAction, stateAction)
 
