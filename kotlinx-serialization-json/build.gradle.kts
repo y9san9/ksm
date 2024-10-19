@@ -5,6 +5,6 @@ plugins {
 version = libs.versions.ksm.get()
 
 dependencies {
-    commonMainApi(projects.core)
+    commonMainApi(projects.telegram)
     commonMainApi(libs.kotlinx.serialization.json)
 }

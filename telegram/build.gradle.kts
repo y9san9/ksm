@@ -5,10 +5,10 @@ plugins {
 version = libs.versions.ksm.get()
 
 dependencies {
-    commonMainImplementation(projects.pipeline)
-    commonMainImplementation(projects.state)
-    commonMainImplementation(projects.router)
-    commonMainImplementation(libs.kotlinx.coroutines.core)
-    commonMainImplementation(libs.ktgbotapi)
-    commonMainImplementation(libs.aqueue)
+    commonMainApi(projects.pipeline)
+    commonMainApi(projects.state)
+    commonMainApi(projects.router)
+    commonMainApi(libs.kotlinx.coroutines.core)
+    commonMainApi(libs.ktgbotapi)
+    commonMainApi(libs.aqueue)
 }

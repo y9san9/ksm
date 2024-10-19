@@ -66,66 +66,6 @@ jobs:
       - name: Publish ${{ env.release_version }}
         run: ./gradlew publishJsPublicationToMavenCentralRepository
 
-  deploy-ios-x64:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Gradle Cache Setup
-        uses: gradle/gradle-build-action@v2.4.2
-      - name: Konan Cache Setup
-        uses: actions/cache@v3
-        with:
-          path: ~/.konan
-          key: konan-cache
-      - name: Gradle Sync
-        run: ./gradlew
-      - name: Add Library Version to Env
-        run: |
-          release_version=$(./gradlew printVersion -q)
-          echo "release_version=$release_version" >> $GITHUB_ENV
-      - name: Publish ${{ env.release_version }}
-        run: ./gradlew publishIosX64PublicationToMavenCentralRepository
-
-  deploy-ios-arm64:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Gradle Cache Setup
-        uses: gradle/gradle-build-action@v2.4.2
-      - name: Konan Cache Setup
-        uses: actions/cache@v3
-        with:
-          path: ~/.konan
-          key: konan-cache
-      - name: Gradle Sync
-        run: ./gradlew
-      - name: Add Library Version to Env
-        run: |
-          release_version=$(./gradlew printVersion -q)
-          echo "release_version=$release_version" >> $GITHUB_ENV
-      - name: Publish ${{ env.release_version }}
-        run: ./gradlew publishIosArm64PublicationToMavenCentralRepository
-
-  deploy-ios-simulator-arm64:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Gradle Cache Setup
-        uses: gradle/gradle-build-action@v2.4.2
-      - name: Konan Cache Setup
-        uses: actions/cache@v3
-        with:
-          path: ~/.konan
-          key: konan-cache
-      - name: Gradle Sync
-        run: ./gradlew
-      - name: Add Library Version to Env
-        run: |
-          release_version=$(./gradlew printVersion -q)
-          echo "release_version=$release_version" >> $GITHUB_ENV
-      - name: Publish ${{ env.release_version }}
-        run: ./gradlew publishIosSimulatorArm64PublicationToMavenCentralRepository
-
   create-release:
     runs-on: ubuntu-latest
     permissions:
@@ -134,9 +74,6 @@ jobs:
       - deploy-multiplatform
       - deploy-jvm
       - deploy-js
-      - deploy-ios-x64
-      - deploy-ios-arm64
-      - deploy-ios-simulator-arm64
     steps:
       - uses: actions/checkout@v3
       - uses: ncipollo/release-action@v1
