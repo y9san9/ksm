@@ -10,10 +10,9 @@ import me.y9san9.pipeline.context.set
 
 public suspend fun StateHandler.Scope.goto(
     id: String,
-    parameters: StateData.Map = StateData.Map(emptyMap()),
     data: StateData = StateData.Null
 ): Nothing {
-    goto(StateDescriptor(id, parameters, data))
+    goto(StateDescriptor(id, StateData.Map(emptyMap()), data))
 }
 
 public suspend fun StateHandler.Scope.goto(descriptor: StateDescriptor): Nothing {
