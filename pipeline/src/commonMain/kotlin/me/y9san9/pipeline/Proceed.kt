@@ -5,9 +5,10 @@ import me.y9san9.pipeline.context.*
 import me.y9san9.pipeline.phase.proceed
 
 public suspend inline fun Pipeline.proceed(
+    context: PipelineContext,
     block: MutablePipelineContext.() -> Unit
 ): PipelineContext {
-    return proceed(buildPipelineContext(block = block))
+    return proceed(context, buildPipelineContext(block = block))
 }
 
 public suspend fun Pipeline.proceed(

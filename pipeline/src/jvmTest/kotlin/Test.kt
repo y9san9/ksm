@@ -1,4 +1,5 @@
 import me.y9san9.pipeline.buildPipeline
+import me.y9san9.pipeline.context.PipelineContext
 import me.y9san9.pipeline.insertPhaseFirst
 import me.y9san9.pipeline.phase.name
 import me.y9san9.pipeline.phase.runnable
@@ -15,5 +16,5 @@ suspend fun main() {
         }
     }
 
-    pipeline.proceed()
+    pipeline.proceed(PipelineContext.Empty)
 }
