@@ -9,4 +9,5 @@ dependencies {
     commonMainApi(libs.kotlinx.coroutines.core)
     commonMainApi(libs.ktgbotapi)
     commonMainApi(libs.aqueue)
+    commonTestImplementation(projects.kotlinxSerializationJson)
 }

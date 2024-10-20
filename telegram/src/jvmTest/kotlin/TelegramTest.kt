@@ -1,6 +1,13 @@
 import dev.inmo.tgbotapi.extensions.api.send.reply
+import dev.inmo.tgbotapi.extensions.api.send.sendMessage
 import dev.inmo.tgbotapi.extensions.api.telegramBot
+import dev.inmo.tgbotapi.extensions.utils.extensions.raw.text
+import dev.inmo.tgbotapi.utils.RiskFeature
+import kotlinx.serialization.json.Json
 import me.y9san9.ksm.telegram.*
+import me.y9san9.ksm.telegram.json.goto
+import me.y9san9.ksm.telegram.json.json
+import me.y9san9.ksm.telegram.json.receive
 import me.y9san9.ksm.telegram.routing.StateRouting
 import me.y9san9.ksm.telegram.routing.state
 import me.y9san9.ksm.telegram.state.*
@@ -10,6 +17,7 @@ suspend fun main() {
 
     val fsm = buildTelegramFSM {
         storage = TelegramStorage.InMemory()
+        json = Json
 
         routing {
             initial = "A"
@@ -21,6 +29,7 @@ suspend fun main() {
     fsm.longPolling(bot)
 }
 
+@OptIn(RiskFeature::class)
 private fun StateRouting.testState() {
     state {
         name = "A"
@@ -38,11 +47,34 @@ private fun StateRouting.testState() {
         name = "B"
 
         transition {
-            bot.reply(message, "Goodbye!")
+            bot.reply(message, "Hello! Enter a number, please:")
         }
 
         handle {
-            goto("A")
+            val text = message.text
+            if (text == null) {
+                bot.reply(message, "Enter a valid number!")
+                return@handle
+            }
+
+            val int = text.toIntOrNull()
+            if (int == null) {
+                bot.reply(message, "Enter a valid number!")
+                return@handle
+            }
+
+            goto("C", int)
+        }
+    }
+
+    state {
+        name = "C"
+
+        transition {
+            val int: Int = receive()
+            bot.reply(message, "Your number incremented: ${int + 1}")
+            // todo: support goto from transition (now it works, but no transition of State B is invoked)
+            goto("B")
         }
     }
 }

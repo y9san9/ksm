@@ -6,7 +6,6 @@ import me.y9san9.pipeline.context.*
 public class State(public val context: PipelineContext) {
     init {
         context.require(StateBase.Config.Name) { "Please set the state name" }
-        context.require(StateBase.Config.Handler) { "Please set the state handler" }
     }
 
     public class Builder(context: PipelineContext) {

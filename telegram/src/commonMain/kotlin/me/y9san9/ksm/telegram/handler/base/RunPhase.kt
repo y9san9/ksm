@@ -1,5 +1,6 @@
 package me.y9san9.ksm.telegram.handler.base
 
+import me.y9san9.ksm.telegram.handler.GotoCommand
 import me.y9san9.ksm.telegram.handler.base.TelegramUpdateHandlerBase.Subject
 import me.y9san9.ksm.telegram.state.StateHandler
 import me.y9san9.ksm.telegram.state.base.StateBase
@@ -18,7 +19,7 @@ public val RunPhase: PipelinePhase = buildPipelinePhase {
     name = "RunPhase"
 
     runnable {
-        val state = context.require(Subject.State)
+        val state = context.require(Subject.RestoredState)
         val stateAction = state.context.require(StateBase.Config.Handler)
 
         suspendCoroutine { continuation ->
@@ -32,6 +33,11 @@ public val RunPhase: PipelinePhase = buildPipelinePhase {
             }
             val scope = StateHandler.Scope(context = toPipelineContext() + subject)
             suspend { stateAction.run(scope) }.startCoroutine(continuation)
+        }
+
+        if (Subject.GotoCommand !in context) {
+            val descriptor = context.require(Subject.RestoredDescriptor)
+            context[Subject.GotoCommand] = GotoCommand(descriptor, transition = false)
         }
     }
 }

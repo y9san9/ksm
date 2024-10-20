@@ -4,6 +4,7 @@ import dev.inmo.tgbotapi.bot.TelegramBot
 import dev.inmo.tgbotapi.types.update.MessageUpdate
 import me.y9san9.ksm.telegram.TelegramStorage
 import me.y9san9.ksm.telegram.routing.StateDescriptor
+import me.y9san9.ksm.telegram.state.State
 import me.y9san9.ksm.telegram.state.continuation.StateContinuation
 import me.y9san9.pipeline.buildPipeline
 import me.y9san9.pipeline.context.MutablePipelineContext
@@ -19,9 +20,9 @@ public object TelegramUpdateHandlerBase : PipelinePlugin {
         context[Config.Pipeline] = buildPipeline {
             insertPhaseLast(RestorePhase)
             insertPhaseLast(StartResetPhase)
-            insertPhaseLast(RoutePhase)
+            insertPhaseLast(RouteRunPhase)
             insertPhaseLast(RunPhase)
-            insertPhaseLast(RoutePhase)
+            insertPhaseLast(RouteNavigatePhase)
             insertPhaseLast(NavigatePhase)
             insertPhaseLast(SavePhase)
         }
@@ -38,8 +39,11 @@ public object TelegramUpdateHandlerBase : PipelinePlugin {
         public object StateList : PipelineElement<me.y9san9.ksm.telegram.routing.StateList>
         public object Storage : PipelineElement<TelegramStorage>
 
-        public object Descriptor : PipelineElement<StateDescriptor>
-        public object State : PipelineElement<me.y9san9.ksm.telegram.state.State>
+        public object RestoredDescriptor : PipelineElement<StateDescriptor>
+        public object RestoredState : PipelineElement<State>
+        public object GotoCommand : PipelineElement<me.y9san9.ksm.telegram.handler.GotoCommand>
+        public object GotoState : PipelineElement<State>
+        public object StateData : PipelineElement<me.y9san9.ksm.telegram.state.data.StateData>
         public object Continuation : PipelineElement<StateContinuation>
     }
 }
