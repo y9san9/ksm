@@ -6,32 +6,38 @@ public fun mutablePipelineContextOf(context: PipelineContext = PipelineContext.E
     }
 
     return object : MutablePipelineContext {
-        override var context: PipelineContext = context
+        private var immutableContext: PipelineContext = context
             set(value) {
                 if (value is MutablePipelineContext) error("MutablePipelineContext.context must be immutable")
                 field = value
             }
 
-        override fun toString() = "MutablePipelineContext(context=${this.context})"
+        override fun takeFrom(context: PipelineContext) {
+            immutableContext = context
+        }
+        override fun toPipelineContext(): PipelineContext {
+            return immutableContext
+        }
+
+        override fun toString() = "MutablePipelineContext(context=${this.immutableContext})"
     }
 }
 
 public interface MutablePipelineContext : PipelineContext {
-    override var context: PipelineContext
+    override val context: MutablePipelineContext get() = this
 
-    override fun contains(element: PipelineElement<*>): Boolean = element in context
-    override fun <T : Any> get(element: PipelineElement<T>): T? = context[element]
-}
+    public fun takeFrom(context: PipelineContext)
+    public fun toPipelineContext(): PipelineContext
 
-public fun MutablePipelineContext.toPipelineContext(): PipelineContext {
-    return context.context
+    override fun contains(element: PipelineElement<*>): Boolean = element in toPipelineContext()
+    override fun <T : Any> get(element: PipelineElement<T>): T? = toPipelineContext()[element]
 }
 
 public operator fun <T : Any> MutablePipelineContext.set(
     element: PipelineElement<T>,
     value: T?
 ) {
-    context += SingleElementPipelineContext(element, value)
+    takeFrom(context = toPipelineContext() + SingleElementPipelineContext(element, value))
 }
 
 public fun MutablePipelineContext.remove(element: PipelineElement<*>) {

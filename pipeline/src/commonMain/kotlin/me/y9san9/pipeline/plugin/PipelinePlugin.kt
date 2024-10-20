@@ -4,6 +4,6 @@ import me.y9san9.pipeline.context.MutablePipelineContext
 import me.y9san9.pipeline.context.PipelineElement
 
 public interface PipelinePlugin : PipelineElement<PipelinePlugin> {
-    public val name: String
+    override val name: String
     public fun apply(context: MutablePipelineContext)
 }

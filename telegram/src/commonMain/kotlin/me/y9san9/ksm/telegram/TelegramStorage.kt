@@ -4,12 +4,11 @@ import dev.inmo.tgbotapi.bot.TelegramBot
 import dev.inmo.tgbotapi.types.update.MessageUpdate
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import me.y9san9.ksm.state.data.StateData
-import me.y9san9.ksm.telegram.plugin.TelegramFSMBase.Subject
+import me.y9san9.ksm.telegram.base.TelegramFSMBase.Subject
+import me.y9san9.ksm.telegram.state.data.StateData
 import me.y9san9.pipeline.context.require
-import me.y9san9.pipeline.context.set
-import me.y9san9.pipeline.subject.setSubject
-import me.y9san9.pipeline.subject.subject
+import me.y9san9.pipeline.setSubject
+import me.y9san9.pipeline.subject
 
 public interface TelegramStorage {
     public suspend fun restore(

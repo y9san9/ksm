@@ -1,21 +1,35 @@
 package me.y9san9.pipeline
 
+import me.y9san9.pipeline.base.PipelineBase
 import me.y9san9.pipeline.context.*
+import me.y9san9.pipeline.plugin.install
 
-public interface Pipeline {
-    public val context: PipelineContext
+public data class Pipeline(public val context: PipelineContext) {
+    public class Builder(context: PipelineContext) {
+        public val context: MutablePipelineContext = mutablePipelineContextOf(context)
 
-    public companion object {
-        public fun require(context: PipelineContext) {
-            context.require(PipelinePhaseList)
+        public constructor() : this(PipelineContext.Empty) {
+            context.install(PipelineBase)
         }
 
-        public fun of(context: PipelineContext): Pipeline {
-            require(context)
-            return object : Pipeline {
-                override val context = context
-                override fun toString(): String = "Pipeline(context=$context)"
-            }
+        public fun build(): Pipeline {
+            return Pipeline(context.toPipelineContext())
         }
     }
+}
+
+public inline fun buildPipeline(
+    base: Pipeline? = null,
+    block: Pipeline.Builder.() -> Unit = {}
+): Pipeline {
+    val builder = when (base) {
+        null -> Pipeline.Builder()
+        else -> Pipeline.Builder(base.context)
+    }
+    builder.block()
+    return builder.build()
+}
+
+public inline fun Pipeline?.build(block: Pipeline.Builder.() -> Unit = {}): Pipeline {
+    return buildPipeline(base = this, block)
 }

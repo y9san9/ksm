@@ -3,14 +3,14 @@ package me.y9san9.pipeline
 import me.y9san9.pipeline.phase.*
 import me.y9san9.pipeline.phase.name
 
-public fun PipelineBuilder.insertPhaseAfter(
+public fun Pipeline.Builder.insertPhaseAfter(
     which: PipelinePhase,
     block: PipelinePhaseBuilder.() -> Unit
 ) {
     insertPhaseAfter(which, buildPipelinePhase(block = block))
 }
 
-public inline fun PipelineBuilder.insertPhaseAfter(
+public inline fun Pipeline.Builder.insertPhaseAfter(
     which: PipelinePhase,
     phase: PipelinePhase
 ) {
@@ -26,14 +26,14 @@ public inline fun PipelineBuilder.insertPhaseAfter(
     error("No phase named '${which.name}'")
 }
 
-public fun PipelineBuilder.insertPhaseBefore(
+public fun Pipeline.Builder.insertPhaseBefore(
     which: PipelinePhase,
     block: PipelinePhaseBuilder.() -> Unit
 ) {
     insertPhaseBefore(which, buildPipelinePhase(block = block))
 }
 
-public inline fun PipelineBuilder.insertPhaseBefore(
+public inline fun Pipeline.Builder.insertPhaseBefore(
     which: PipelinePhase,
     phase: PipelinePhase
 ) {
@@ -49,21 +49,21 @@ public inline fun PipelineBuilder.insertPhaseBefore(
     error("No phase named '${which.name}'")
 }
 
-public fun PipelineBuilder.insertPhaseFirst(block: PipelinePhaseBuilder.() -> Unit) {
+public fun Pipeline.Builder.insertPhaseFirst(block: PipelinePhaseBuilder.() -> Unit) {
     insertPhaseFirst(buildPipelinePhase(block = block))
 }
 
-public fun PipelineBuilder.insertPhaseFirst(phase: PipelinePhase) {
+public fun Pipeline.Builder.insertPhaseFirst(phase: PipelinePhase) {
     val phases = this.phases.toMutableList()
     phases.add(index = 0, phase)
     this.phases = phases
 }
 
-public fun PipelineBuilder.insertPhaseLast(block: PipelinePhaseBuilder.() -> Unit) {
+public fun Pipeline.Builder.insertPhaseLast(block: PipelinePhaseBuilder.() -> Unit) {
     insertPhaseLast(buildPipelinePhase(block = block))
 }
 
-public fun PipelineBuilder.insertPhaseLast(phase: PipelinePhase) {
+public fun Pipeline.Builder.insertPhaseLast(phase: PipelinePhase) {
     val phases = this.phases.toMutableList()
     phases.add(phase)
     this.phases = phases

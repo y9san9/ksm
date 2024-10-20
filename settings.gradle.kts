@@ -20,7 +20,7 @@ dependencyResolutionManagement {
 includeBuild("build-logic")
 
 include(
-    "pipeline", "state", "router", "telegram", "kotlinx-serialization-json"
+    "pipeline", "telegram", "kotlinx-serialization-json"
 )
 
 // Deprecated

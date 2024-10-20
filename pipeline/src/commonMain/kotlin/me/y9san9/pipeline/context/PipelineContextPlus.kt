@@ -1,6 +1,13 @@
 package me.y9san9.pipeline.context
 
+public operator fun MutablePipelineContext.plusAssign(context: PipelineContext) {
+    takeFrom(context = toPipelineContext() + context)
+}
+
 public operator fun PipelineContext.plus(context: PipelineContext): PipelineContext {
+    if (this is MutablePipelineContext) error("Receiver was MutablePipelineContext")
+    if (context is MutablePipelineContext) error("context was MutablePipelineContext")
+
     val leftMap = this.map
     val rightMap = context.map
 

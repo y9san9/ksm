@@ -22,7 +22,7 @@ public inline fun <T : Any> PipelineContext.require(
 
 public inline fun <T : Any> PipelineContext.require(
     element: PipelineElement<T>,
-    message: () -> String = { "Element ${element.elementName()} is required. Context: $this" }
+    message: () -> String = { "Element ${element.name} is required. Context: $this" }
 ): T {
     if (element !in this) error(message())
     return get(element) as T
