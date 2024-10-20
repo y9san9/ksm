@@ -18,6 +18,7 @@ public object TelegramUpdateHandlerBase : PipelinePlugin {
     override fun apply(context: MutablePipelineContext) {
         context[Config.Pipeline] = buildPipeline {
             insertPhaseLast(RestorePhase)
+            insertPhaseLast(StartResetPhase)
             insertPhaseLast(RoutePhase)
             insertPhaseLast(RunPhase)
             insertPhaseLast(RoutePhase)
