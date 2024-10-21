@@ -1,9 +1,10 @@
-package me.y9san9.ksm.telegram
+package me.y9san9.ksm.telegram.routing
 
 import dev.inmo.tgbotapi.bot.TelegramBot
 import dev.inmo.tgbotapi.types.update.MessageUpdate
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import me.y9san9.ksm.telegram.TelegramFSM
 import me.y9san9.ksm.telegram.base.TelegramFSMBase.Subject
 import me.y9san9.ksm.telegram.state.data.StateData
 import me.y9san9.pipeline.context.require
@@ -36,6 +37,6 @@ public interface TelegramStorage {
     }
 }
 
-public var TelegramFSM.Builder.storage: TelegramStorage
+public var StateRouting.storage: TelegramStorage
     get() = context.subject.require(Subject.Storage)
     set(value) { context.setSubject(Subject.Storage, value) }

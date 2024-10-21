@@ -5,9 +5,9 @@ import dev.inmo.tgbotapi.types.update.MessageUpdate
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import me.y9san9.ksm.telegram.TelegramFSM
-import me.y9san9.ksm.telegram.TelegramStorage
+import me.y9san9.ksm.telegram.routing.TelegramStorage
 import me.y9san9.ksm.telegram.state.data.StateData
-import me.y9san9.ksm.telegram.storage
+import me.y9san9.ksm.telegram.routing.storage
 
 public interface JsonTelegramStorage {
     public val json: Json get() = Json

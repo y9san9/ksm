@@ -5,12 +5,12 @@ import me.y9san9.pipeline.phase.name
 
 public fun Pipeline.Builder.insertPhaseAfter(
     which: PipelinePhase,
-    block: PipelinePhaseBuilder.() -> Unit
+    block: PipelinePhase.Builder.() -> Unit
 ) {
     insertPhaseAfter(which, buildPipelinePhase(block = block))
 }
 
-public inline fun Pipeline.Builder.insertPhaseAfter(
+public fun Pipeline.Builder.insertPhaseAfter(
     which: PipelinePhase,
     phase: PipelinePhase
 ) {
@@ -28,12 +28,12 @@ public inline fun Pipeline.Builder.insertPhaseAfter(
 
 public fun Pipeline.Builder.insertPhaseBefore(
     which: PipelinePhase,
-    block: PipelinePhaseBuilder.() -> Unit
+    block: PipelinePhase.Builder.() -> Unit
 ) {
     insertPhaseBefore(which, buildPipelinePhase(block = block))
 }
 
-public inline fun Pipeline.Builder.insertPhaseBefore(
+public fun Pipeline.Builder.insertPhaseBefore(
     which: PipelinePhase,
     phase: PipelinePhase
 ) {
@@ -49,7 +49,7 @@ public inline fun Pipeline.Builder.insertPhaseBefore(
     error("No phase named '${which.name}'")
 }
 
-public fun Pipeline.Builder.insertPhaseFirst(block: PipelinePhaseBuilder.() -> Unit) {
+public fun Pipeline.Builder.insertPhaseFirst(block: PipelinePhase.Builder.() -> Unit) {
     insertPhaseFirst(buildPipelinePhase(block = block))
 }
 
@@ -59,7 +59,7 @@ public fun Pipeline.Builder.insertPhaseFirst(phase: PipelinePhase) {
     this.phases = phases
 }
 
-public fun Pipeline.Builder.insertPhaseLast(block: PipelinePhaseBuilder.() -> Unit) {
+public fun Pipeline.Builder.insertPhaseLast(block: PipelinePhase.Builder.() -> Unit) {
     insertPhaseLast(buildPipelinePhase(block = block))
 }
 

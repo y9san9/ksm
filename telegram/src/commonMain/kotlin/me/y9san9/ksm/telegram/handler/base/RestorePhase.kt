@@ -21,6 +21,6 @@ public val RestorePhase: PipelinePhase = buildPipelinePhase {
         val data = storage.restore(bot, update) ?: return@runnable
         val descriptor = StateDescriptor.decode(from = data)
 
-        context[Subject.RestoredDescriptor] = descriptor
+        context[Subject.Descriptor] = descriptor
     }
 }

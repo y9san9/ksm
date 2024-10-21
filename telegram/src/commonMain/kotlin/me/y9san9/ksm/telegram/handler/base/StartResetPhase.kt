@@ -20,7 +20,7 @@ public val StartResetPhase: PipelinePhase = buildPipelinePhase {
         val message = update.data
         if (message !is PrivateContentMessage<*>) return@runnable
         if (message.text == "/start") {
-            context[Subject.RestoredDescriptor] = null
+            context[Subject.Descriptor] = null
         }
     }
 }

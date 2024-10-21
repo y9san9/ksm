@@ -11,6 +11,15 @@ public object PipelineSignal {
     public object Return : PipelineElement<Return>
 
     /**
+     * Signals that the next state must be [target].
+     *
+     * States after current state and before target states are still executed
+     */
+    public class Goto(public val target: String) {
+        public companion object : PipelineElement<Goto>
+    }
+
+    /**
      * Signals that current pipeline is completed with error.
      * This signal propagates up from children to its parent pipelines.
      *

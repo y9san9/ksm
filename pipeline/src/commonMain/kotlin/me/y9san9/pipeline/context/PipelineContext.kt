@@ -13,7 +13,7 @@ public interface PipelineContext {
     }
 }
 
-public inline fun <T : Any> PipelineContext.require(
+public fun <T : Any> PipelineContext.require(
     element: PipelineElement<T>,
     plugin: PipelinePlugin
 ): T {

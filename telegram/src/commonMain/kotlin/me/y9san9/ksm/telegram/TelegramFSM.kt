@@ -10,6 +10,7 @@ import me.y9san9.ksm.telegram.base.TelegramFSMBase
 import me.y9san9.pipeline.context.*
 import me.y9san9.pipeline.plugin.install
 import me.y9san9.pipeline.proceed
+import me.y9san9.pipeline.subject
 
 public class TelegramFSM(public val context: PipelineContext) {
     public suspend fun longPolling(bot: TelegramBot) {
@@ -30,7 +31,7 @@ public class TelegramFSM(public val context: PipelineContext) {
 
     public suspend fun proceed(subject: PipelineContext): PipelineContext {
         val pipeline = context.require(TelegramFSMBase.Config.Pipeline)
-        return pipeline.proceed(context, subject)
+        return pipeline.proceed(subject = context.subject + subject)
     }
 
     public class Builder(context: PipelineContext) {

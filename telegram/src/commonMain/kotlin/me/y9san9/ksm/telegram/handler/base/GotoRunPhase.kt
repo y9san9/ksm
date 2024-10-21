@@ -14,13 +14,15 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.startCoroutine
 import kotlin.coroutines.suspendCoroutine
 
-public val NavigatePhase: PipelinePhase = buildPipelinePhase {
-    name = "NavigatePhase"
+public val GotoRunPhase: PipelinePhase = buildPipelinePhase {
+    name = "GotoRunPhase"
 
     runnable {
         val command = require(Subject.GotoCommand)
         if (!command.transition) return@runnable
-        val state = require(Subject.GotoState)
+        context[Subject.GotoCommand] = command.copy(transition = false)
+
+        val state = require(Subject.State)
         val transition = state.context.require(StateBase.Config.Transition)
 
         suspendCoroutine { continuation ->
@@ -31,8 +33,8 @@ public val NavigatePhase: PipelinePhase = buildPipelinePhase {
             }
             val subject = state.context.subject.build {
                 context[Subject.Continuation] = stateContinuation
-            }
-            val scope = StateHandler.Scope(context = toPipelineContext() + subject)
+            } + toPipelineContext()
+            val scope = StateHandler.Scope(subject)
             suspend { transition.run(scope) }.startCoroutine(continuation)
         }
     }

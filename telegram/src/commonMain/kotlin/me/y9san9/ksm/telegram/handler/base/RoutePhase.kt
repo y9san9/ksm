@@ -11,20 +11,18 @@ import me.y9san9.pipeline.phase.buildPipelinePhase
 import me.y9san9.pipeline.phase.name
 import me.y9san9.pipeline.phase.runnable
 
-public val RouteRunPhase: PipelinePhase = buildPipelinePhase {
-    name = "RouteRunPhase"
+public val RoutePhase: PipelinePhase = buildPipelinePhase {
+    name = "RoutePhase"
 
     runnable {
         val states = context.require(Subject.StateList)
-        val descriptor = context[Subject.RestoredDescriptor]
+        val descriptor = context[Subject.Descriptor]
 
         val state = states[descriptor]
-        context[Subject.RestoredState] = state
+        context[Subject.State] = state
 
         if (descriptor == null) {
-            context[Subject.RestoredDescriptor] = StateDescriptor(state.name, StateData.Map.Empty, StateData.Null)
+            context[Subject.Descriptor] = StateDescriptor(state.name, StateData.Map.Empty, StateData.Null)
         }
-
-        context[Subject.StateData] = descriptor?.data ?: StateData.Null
     }
 }

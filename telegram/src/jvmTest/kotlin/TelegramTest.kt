@@ -1,5 +1,4 @@
 import dev.inmo.tgbotapi.extensions.api.send.reply
-import dev.inmo.tgbotapi.extensions.api.send.sendMessage
 import dev.inmo.tgbotapi.extensions.api.telegramBot
 import dev.inmo.tgbotapi.extensions.utils.extensions.raw.text
 import dev.inmo.tgbotapi.utils.RiskFeature
@@ -8,8 +7,7 @@ import me.y9san9.ksm.telegram.*
 import me.y9san9.ksm.telegram.json.goto
 import me.y9san9.ksm.telegram.json.json
 import me.y9san9.ksm.telegram.json.receive
-import me.y9san9.ksm.telegram.routing.StateRouting
-import me.y9san9.ksm.telegram.routing.state
+import me.y9san9.ksm.telegram.routing.*
 import me.y9san9.ksm.telegram.state.*
 
 suspend fun main() {
@@ -34,10 +32,6 @@ private fun StateRouting.testState() {
     state {
         name = "A"
 
-        transition {
-            bot.reply(message, "Hello!")
-        }
-
         handle {
             goto("B")
         }
@@ -47,7 +41,7 @@ private fun StateRouting.testState() {
         name = "B"
 
         transition {
-            bot.reply(message, "Hello! Enter a number, please:")
+            bot.reply(message, "Enter a number, please:")
         }
 
         handle {
@@ -73,7 +67,6 @@ private fun StateRouting.testState() {
         transition {
             val int: Int = receive()
             bot.reply(message, "Your number incremented: ${int + 1}")
-            // todo: support goto from transition (now it works, but no transition of State B is invoked)
             goto("B")
         }
     }

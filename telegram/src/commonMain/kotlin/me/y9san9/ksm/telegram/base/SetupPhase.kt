@@ -10,7 +10,7 @@ public val SetupPhase: PipelinePhase = buildPipelinePhase {
     name = "SetupPhase"
 
     runnable {
-        require(TelegramFSMBase.Subject.StateList) { "Please setup `routing` in buildTelegramFSM" }
+        require(TelegramFSMBase.Subject.MessagesStateList) { "Please setup `routing` in buildTelegramFSM" }
         require(TelegramFSMBase.Subject.Storage) { "Please setup `storage` in buildTelegramFSM" }
     }
 }

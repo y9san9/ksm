@@ -4,11 +4,12 @@ import me.y9san9.ksm.telegram.handler.base.TelegramUpdateHandlerBase
 import me.y9san9.pipeline.context.*
 import me.y9san9.pipeline.plugin.install
 import me.y9san9.pipeline.proceed
+import me.y9san9.pipeline.subject
 
 public class TelegramUpdateHandler(public val context: PipelineContext) {
     public suspend fun proceed(subject: PipelineContext): PipelineContext {
         val pipeline = context.require(TelegramUpdateHandlerBase.Config.Pipeline)
-        return pipeline.proceed(context, subject)
+        return pipeline.proceed(subject = context.subject + subject)
     }
 
     public class Builder(context: PipelineContext) {
