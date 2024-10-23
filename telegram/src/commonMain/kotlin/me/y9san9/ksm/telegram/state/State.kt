@@ -8,13 +8,13 @@ import me.y9san9.pipeline.context.require
 
 public class State(public val context: PipelineContext) {
     init {
-        context.require(StateBase.Config.Name) { "Please set the state name" }
+        context.require(StateBase.Config.Route) { "Please set the state name" }
     }
 
-    public open class Builder(
-        public val context: MutablePipelineContext
-    ) {
-        public constructor() : this(mutablePipelineContextOf())
+    public class Builder(context: PipelineContext) {
+        public val context: MutablePipelineContext = mutablePipelineContextOf(context)
+
+        public constructor() : this(PipelineContext.Empty)
 
         public fun build(): State {
             return State(context.toPipelineContext())

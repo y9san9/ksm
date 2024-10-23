@@ -10,6 +10,7 @@ import me.y9san9.pipeline.phase.PipelinePhase
 import me.y9san9.pipeline.phase.buildPipelinePhase
 import me.y9san9.pipeline.phase.name
 import me.y9san9.pipeline.phase.runnable
+import me.y9san9.pipeline.subject
 import kotlin.coroutines.resume
 import kotlin.coroutines.startCoroutine
 import kotlin.coroutines.suspendCoroutine
@@ -19,19 +20,21 @@ public val RunPhase: PipelinePhase = buildPipelinePhase {
 
     runnable {
         val state = context.require(Subject.State)
-        val stateAction = state.context.require(StateBase.Config.Handler)
+        val stateHandler = state.context[StateBase.Config.Handler]
 
-        suspendCoroutine { continuation ->
-            val stateContinuation = StateContinuation { finishSubject ->
-                context += finishSubject
-                continuation.resume(Unit)
-                waitForever()
+        if (stateHandler != null) {
+            suspendCoroutine { continuation ->
+                val stateContinuation = StateContinuation { finishSubject ->
+                    context += finishSubject
+                    continuation.resume(Unit)
+                    waitForever()
+                }
+                val subject = state.context.subject.build {
+                    context[Subject.Continuation] = stateContinuation
+                }
+                val scope = StateHandler.Scope(context = toPipelineContext() + subject)
+                suspend { stateHandler.run(scope) }.startCoroutine(continuation)
             }
-            val subject = state.context.subject.build {
-                context[Subject.Continuation] = stateContinuation
-            }
-            val scope = StateHandler.Scope(context = toPipelineContext() + subject)
-            suspend { stateAction.run(scope) }.startCoroutine(continuation)
         }
 
         if (Subject.GotoCommand !in context) {

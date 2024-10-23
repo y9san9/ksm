@@ -3,6 +3,7 @@ package me.y9san9.ksm.telegram
 import dev.inmo.tgbotapi.bot.TelegramBot
 import dev.inmo.tgbotapi.extensions.utils.updates.retrieving.longPolling
 import dev.inmo.tgbotapi.types.update.MessageUpdate
+import dev.inmo.tgbotapi.updateshandlers.FlowsUpdatesFilter
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -13,10 +14,14 @@ import me.y9san9.pipeline.proceed
 import me.y9san9.pipeline.subject
 
 public class TelegramFSM(public val context: PipelineContext) {
-    public suspend fun longPolling(bot: TelegramBot) {
+    public suspend inline fun longPolling(
+        bot: TelegramBot,
+        crossinline block: FlowsUpdatesFilter.() -> Unit = {}
+    ) {
         coroutineScope {
             bot.longPolling {
                 launch { run(bot, messagesFlow) }
+                block()
             }
         }
     }

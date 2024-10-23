@@ -1,28 +1,29 @@
 package me.y9san9.ksm.telegram.routing
 
-import me.y9san9.ksm.telegram.TelegramFSM
-import me.y9san9.ksm.telegram.base.TelegramFSMBase
-import me.y9san9.ksm.telegram.routing.base.StateListBase
+import me.y9san9.ksm.telegram.group.StateGroup
+import me.y9san9.ksm.telegram.group.base.StateGroupBase
+import me.y9san9.ksm.telegram.state.State
+import me.y9san9.ksm.telegram.state.StateRoute
+import me.y9san9.ksm.telegram.state.route
 import me.y9san9.pipeline.annotation.PipelineDsl
-import me.y9san9.pipeline.context.*
-import me.y9san9.pipeline.plugin.install
+import me.y9san9.pipeline.context.set
 
 @PipelineDsl
-public open class StateRouting(
-    public val context: MutablePipelineContext
-) {
-    public constructor() : this(mutablePipelineContextOf()) {
-        context.install(StateListBase)
-    }
+public class StateRouting {
+    @PipelineDsl
+    public var initial: StateRoute? = null
+    public var states: MutableList<State> = mutableListOf()
 
     public fun toStateList(): StateList {
-        return StateList(context.toPipelineContext())
+        val initial = initial ?: error("Please setup initial state in routing")
+        val initialState = states.firstOrNull { state -> state.route.name == initial.name } ?: error("Can't find initial state named '${initial.name}'")
+        return StateList(initialState, states)
     }
 }
 
 @PipelineDsl
-public fun TelegramFSM.Builder.routing(block: StateRouting.() -> Unit) {
+public fun StateGroup.Builder.routing(block: StateRouting.() -> Unit) {
     val routing = StateRouting()
     routing.block()
-    context[TelegramFSMBase.Subject.StateLists] = context.require(TelegramFSMBase.Subject.StateLists) + routing.toStateList()
+    context[StateGroupBase.Config.StateList] = routing.toStateList()
 }

@@ -2,7 +2,8 @@ package me.y9san9.ksm.telegram.handler.base
 
 import dev.inmo.tgbotapi.bot.TelegramBot
 import dev.inmo.tgbotapi.types.update.MessageUpdate
-import me.y9san9.ksm.telegram.routing.TelegramStorage
+import dev.inmo.tgbotapi.types.update.abstracts.Update
+import me.y9san9.ksm.telegram.group.TelegramStorage
 import me.y9san9.ksm.telegram.routing.StateDescriptor
 import me.y9san9.ksm.telegram.state.continuation.StateContinuation
 import me.y9san9.pipeline.Pipeline
@@ -38,7 +39,7 @@ public object TelegramUpdateHandlerBase : PipelinePlugin {
     }
 
     public object Subject {
-        public object Update : PipelineElement<MessageUpdate>
+        public object Update : PipelineElement<dev.inmo.tgbotapi.types.update.abstracts.Update>
         public object Bot : PipelineElement<TelegramBot>
 
         public object StateList : PipelineElement<me.y9san9.ksm.telegram.routing.StateList>

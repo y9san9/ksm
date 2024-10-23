@@ -11,20 +11,11 @@ import me.y9san9.pipeline.context.set
 
 @PipelineDsl
 public suspend fun StateHandler.Scope.goto(
-    data: StateData,
-    transition: Boolean = false
-): Nothing {
-    val descriptor = context.require(Subject.Descriptor)
-    goto(StateDescriptor(descriptor.name, descriptor.parameters, data), transition)
-}
-
-@PipelineDsl
-public suspend fun StateHandler.Scope.goto(
-    name: String,
+    route: StateRoute,
     data: StateData = StateData.Null,
     transition: Boolean = true
 ): Nothing {
-    goto(StateDescriptor(name, StateData.Map.Empty, data), transition)
+    goto(StateDescriptor(route.name, StateData.Map.Empty, data), transition)
 }
 
 @PipelineDsl
