@@ -1,19 +1,14 @@
 package me.y9san9.ksm.telegram.base
 
 import dev.inmo.tgbotapi.bot.TelegramBot
-import dev.inmo.tgbotapi.types.update.MessageUpdate
 import dev.inmo.tgbotapi.types.update.abstracts.Update
 import kotlinx.coroutines.flow.Flow
-import me.y9san9.aqueue.AQueue
-import me.y9san9.ksm.telegram.group.StateGroup
-import me.y9san9.ksm.telegram.group.TelegramStorage
+import me.y9san9.ksm.telegram.group.UpdateGroup
 import me.y9san9.ksm.telegram.handler.TelegramUpdateHandler
 import me.y9san9.ksm.telegram.handler.buildTelegramHandler
-import me.y9san9.ksm.telegram.routing.StateList
 import me.y9san9.pipeline.buildPipeline
 import me.y9san9.pipeline.context.MutablePipelineContext
 import me.y9san9.pipeline.context.PipelineElement
-import me.y9san9.pipeline.context.require
 import me.y9san9.pipeline.context.set
 import me.y9san9.pipeline.insertPhaseLast
 import me.y9san9.pipeline.plugin.PipelinePlugin
@@ -40,6 +35,6 @@ public object TelegramFSMBase : PipelinePlugin {
         public object Bot : PipelineElement<TelegramBot>
         public object UpdateFlow : PipelineElement<Flow<Update>>
 
-        public object StateGroups : PipelineElement<List<StateGroup>>
+        public object StateGroups : PipelineElement<List<UpdateGroup>>
     }
 }

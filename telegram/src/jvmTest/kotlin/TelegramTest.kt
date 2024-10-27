@@ -4,29 +4,36 @@ import dev.inmo.tgbotapi.extensions.api.send.reply
 import dev.inmo.tgbotapi.extensions.api.send.sendMessage
 import dev.inmo.tgbotapi.extensions.api.telegramBot
 import dev.inmo.tgbotapi.extensions.utils.extensions.raw.text
-import dev.inmo.tgbotapi.types.message.abstracts.PrivateContentMessage
-import dev.inmo.tgbotapi.types.update.MessageUpdate
 import dev.inmo.tgbotapi.utils.RiskFeature
 import kotlinx.serialization.json.Json
-import me.y9san9.ksm.telegram.*
+import me.y9san9.ksm.telegram.buildTelegramFSM
+import me.y9san9.ksm.telegram.callbackQuery.group.callbackQuery
+import me.y9san9.ksm.telegram.callbackQuery.routing.routing
 import me.y9san9.ksm.telegram.json.goto
 import me.y9san9.ksm.telegram.json.json
 import me.y9san9.ksm.telegram.json.receive
-import me.y9san9.ksm.telegram.messages.messages
-import me.y9san9.ksm.telegram.routing.*
-import me.y9san9.ksm.telegram.state.*
+import me.y9san9.ksm.telegram.privateMessage.group.privateMessage
+import me.y9san9.ksm.telegram.privateMessage.routing.PrivateMessageRouting
+import me.y9san9.ksm.telegram.privateMessage.routing.routing
+import me.y9san9.ksm.telegram.privateMessage.state.handle
+import me.y9san9.ksm.telegram.privateMessage.state.message
+import me.y9san9.ksm.telegram.privateMessage.state.state
+import me.y9san9.ksm.telegram.privateMessage.state.transition
+import me.y9san9.ksm.telegram.state.StateName
+import me.y9san9.ksm.telegram.state.bot
+import me.y9san9.ksm.telegram.state.routing.goto
 
-val InitialState by StateRoute
+val InitialState by StateName
 
-fun StateRouting.initialState() = state(InitialState) {
+fun PrivateMessageRouting.initialState() = state(InitialState) {
     handle {
         goto(StateB)
     }
 }
 
-val StateB by StateRoute
+val StateB by StateName
 
-fun StateRouting.stateB() = state(StateB) {
+fun PrivateMessageRouting.stateB() = state(StateB) {
     transition {
         bot.sendMessage(message.chat, "Enter a number, please:")
     }
@@ -43,17 +50,16 @@ fun StateRouting.stateB() = state(StateB) {
     }
 }
 
-val StateC by StateRoute
+val StateC by StateName
 
-fun StateRouting.stateC() = state(StateC) {
+fun PrivateMessageRouting.stateC() = state(StateC) {
     transition {
         val int: Int = receive()
         bot.reply(message, "Your number incremented: ${int + 1}")
-        goto(StateB)
     }
 }
 
-private fun StateRouting.testStates() {
+private fun PrivateMessageRouting.testStates() {
     initial = InitialState
 
     initialState()
@@ -67,7 +73,7 @@ suspend fun main() {
     val fsm = buildTelegramFSM {
         json = Json
 
-        messages {
+        privateMessage {
             routing {
                 testStates()
             }

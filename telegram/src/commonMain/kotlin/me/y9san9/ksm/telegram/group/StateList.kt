@@ -1,8 +1,8 @@
 package me.y9san9.ksm.telegram.group
 
-import me.y9san9.ksm.telegram.group.base.StateGroupBase
-import me.y9san9.ksm.telegram.routing.StateList
+import me.y9san9.ksm.telegram.group.base.UpdateGroupBase
+import me.y9san9.ksm.telegram.routing.UpdateStateList
 import me.y9san9.pipeline.context.require
 
-public val StateGroup.stateList: StateList
-    get() = context.require(StateGroupBase.Config.StateList)
+public val UpdateGroup.stateList: UpdateStateList
+    get() = context.require(UpdateGroupBase.Config.StateList)

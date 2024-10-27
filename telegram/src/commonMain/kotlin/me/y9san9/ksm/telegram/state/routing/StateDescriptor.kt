@@ -1,4 +1,4 @@
-package me.y9san9.ksm.telegram.routing
+package me.y9san9.ksm.telegram.state.routing
 
 import me.y9san9.ksm.telegram.state.data.StateData
 

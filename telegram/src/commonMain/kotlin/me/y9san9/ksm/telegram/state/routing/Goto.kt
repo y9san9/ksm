@@ -1,25 +1,26 @@
-package me.y9san9.ksm.telegram.state
+package me.y9san9.ksm.telegram.state.routing
 
 import me.y9san9.ksm.telegram.handler.GotoCommand
 import me.y9san9.ksm.telegram.handler.base.TelegramUpdateHandlerBase.Subject
-import me.y9san9.ksm.telegram.routing.StateDescriptor
+import me.y9san9.ksm.telegram.state.StateName
 import me.y9san9.ksm.telegram.state.data.StateData
+import me.y9san9.ksm.telegram.state.UpdateHandler
 import me.y9san9.pipeline.annotation.PipelineDsl
 import me.y9san9.pipeline.context.buildPipelineContext
 import me.y9san9.pipeline.context.require
 import me.y9san9.pipeline.context.set
 
 @PipelineDsl
-public suspend fun StateHandler.Scope.goto(
-    route: StateRoute,
+public suspend fun UpdateHandler.Scope.goto(
+    route: StateName,
     data: StateData = StateData.Null,
     transition: Boolean = true
 ): Nothing {
-    goto(StateDescriptor(route.name, StateData.Map.Empty, data), transition)
+    goto(StateDescriptor(route.string, StateData.Map.Empty, data), transition)
 }
 
 @PipelineDsl
-public suspend fun StateHandler.Scope.goto(
+public suspend fun UpdateHandler.Scope.goto(
     descriptor: StateDescriptor,
     transition: Boolean = true
 ): Nothing {
