@@ -11,5 +11,5 @@ public fun interface StateGroupFilter {
     }
 }
 
-public val UpdateGroup.filter: StateGroupFilter
+public val UpdateStateGroup.filter: StateGroupFilter
     get() = context[UpdateGroupBase.Config.Filter] ?: StateGroupFilter.Default

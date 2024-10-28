@@ -9,7 +9,7 @@ import me.y9san9.pipeline.plugin.install
 import me.y9san9.pipeline.setSubject
 import me.y9san9.pipeline.subject
 
-public class UpdateGroup(public val context: PipelineContext) {
+public class UpdateStateGroup(public val context: PipelineContext) {
 
     @PipelineDsl
     public open class Builder {
@@ -19,13 +19,13 @@ public class UpdateGroup(public val context: PipelineContext) {
             context.install(UpdateGroupBase)
         }
 
-        public fun build(): UpdateGroup {
-            return UpdateGroup(context.toPipelineContext())
+        public fun build(): UpdateStateGroup {
+            return UpdateStateGroup(context.toPipelineContext())
         }
     }
 }
 
-public fun TelegramFSM.Builder.addUpdateGroup(group: UpdateGroup) {
+public fun TelegramFSM.Builder.addUpdateStateGroup(group: UpdateStateGroup) {
     val groups = context.subject.require(TelegramFSMBase.Subject.StateGroups)
     context.setSubject(TelegramFSMBase.Subject.StateGroups, value = groups + group)
 }

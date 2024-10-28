@@ -1,6 +1,6 @@
 package me.y9san9.ksm.telegram.callbackQuery.state
 
-import me.y9san9.ksm.telegram.privateMessage.routing.PrivateMessageRouting
+import me.y9san9.ksm.telegram.callbackQuery.routing.CallbackQueryRouting
 import me.y9san9.ksm.telegram.state.StateName
 import me.y9san9.ksm.telegram.state.UpdateState
 import me.y9san9.ksm.telegram.state.base.UpdateStateBase
@@ -12,7 +12,7 @@ public object CallbackQueryState {
 }
 
 @PipelineDsl
-public fun PrivateMessageRouting.state(route: StateName, block: CallbackQueryState.Builder.() -> Unit) {
+public fun CallbackQueryRouting.state(route: StateName, block: CallbackQueryState.Builder.() -> Unit) {
     val builder = CallbackQueryState.Builder()
     builder.context[UpdateStateBase.Config.Route] = route
     builder.block()

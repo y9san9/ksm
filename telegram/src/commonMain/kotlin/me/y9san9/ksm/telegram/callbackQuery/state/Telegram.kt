@@ -1,5 +1,6 @@
 package me.y9san9.ksm.telegram.callbackQuery.state
 
+import dev.inmo.tgbotapi.extensions.utils.extensions.raw.data
 import dev.inmo.tgbotapi.extensions.utils.extensions.raw.inline_message_id
 import dev.inmo.tgbotapi.extensions.utils.extensions.raw.message
 import dev.inmo.tgbotapi.types.InlineMessageId
@@ -34,3 +35,11 @@ public val CallbackQueryHandler.Scope.inlineMessageId: InlineMessageId?
 @PipelineDsl
 public val CallbackQueryHandler.Scope.user: User
     get() = callbackQueryUpdate.data.from
+
+@PipelineDsl
+@OptIn(RiskFeature::class)
+public inline fun CallbackQueryHandler.Scope.case(data: CallbackData, block: () -> Unit) {
+    if (callbackQueryUpdate.data.data == data.string) {
+        block()
+    }
+}

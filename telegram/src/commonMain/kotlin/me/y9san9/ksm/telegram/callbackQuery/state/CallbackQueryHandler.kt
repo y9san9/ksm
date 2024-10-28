@@ -8,7 +8,7 @@ import me.y9san9.pipeline.context.set
 
 public object CallbackQueryHandler {
     @PipelineDsl
-    public class Scope(context: PipelineContext) : UpdateHandler.Scope(context)
+    public open class Scope(context: PipelineContext) : UpdateHandler.Scope(context)
 }
 
 @PipelineDsl

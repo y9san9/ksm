@@ -7,5 +7,5 @@ public fun interface StateGroupKey {
     public suspend fun key(update: Update): Any?
 }
 
-public val UpdateGroup.key: StateGroupKey?
+public val UpdateStateGroup.key: StateGroupKey?
     get() = context[UpdateGroupBase.Config.Key]

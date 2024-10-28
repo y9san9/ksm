@@ -4,5 +4,5 @@ import me.y9san9.ksm.telegram.group.base.UpdateGroupBase
 import me.y9san9.ksm.telegram.routing.UpdateStateList
 import me.y9san9.pipeline.context.require
 
-public val UpdateGroup.stateList: UpdateStateList
+public val UpdateStateGroup.stateList: UpdateStateList
     get() = context.require(UpdateGroupBase.Config.StateList)

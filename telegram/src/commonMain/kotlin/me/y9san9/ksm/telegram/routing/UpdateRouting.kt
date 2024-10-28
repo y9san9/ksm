@@ -6,7 +6,7 @@ import me.y9san9.ksm.telegram.state.name
 import me.y9san9.pipeline.annotation.PipelineDsl
 
 @PipelineDsl
-public open class UpdateGroupRouting {
+public open class UpdateRouting {
     @PipelineDsl
     public var initial: StateName? = null
     public var states: MutableList<UpdateState> = mutableListOf()

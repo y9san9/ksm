@@ -19,5 +19,5 @@ public interface TelegramStorage {
     )
 }
 
-public val UpdateGroup.storage: TelegramStorage
+public val UpdateStateGroup.storage: TelegramStorage
     get() = context.require(UpdateGroupBase.Config.Storage)
