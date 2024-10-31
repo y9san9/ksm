@@ -1,12 +1,14 @@
 package me.y9san9.ksm.telegram.handler.base
 
 import dev.inmo.tgbotapi.bot.TelegramBot
-import dev.inmo.tgbotapi.types.message.abstracts.AccessibleMessage
+import dev.inmo.tgbotapi.types.*
+import dev.inmo.tgbotapi.types.message.abstracts.PrivateContentMessage
+import dev.inmo.tgbotapi.types.update.CallbackQueryUpdate
+import dev.inmo.tgbotapi.types.update.MessageUpdate
 import me.y9san9.ksm.telegram.group.TelegramStorage
 import me.y9san9.ksm.telegram.routing.UpdateStateList
 import me.y9san9.ksm.telegram.state.UpdateState
 import me.y9san9.ksm.telegram.state.routing.StateDescriptor
-import me.y9san9.ksm.telegram.state.continuation.UpdateStateContinuation
 import me.y9san9.pipeline.Pipeline
 import me.y9san9.pipeline.buildPipeline
 import me.y9san9.pipeline.context.MutablePipelineContext
@@ -20,23 +22,22 @@ public object TelegramUpdateHandlerBase : PipelinePlugin {
     override val name: String = "TelegramUpdateHandler"
 
     override fun apply(context: MutablePipelineContext) {
-        context[Config.Pipeline] = buildPipeline {
-            insertPhaseLast(RestorePhase)
-            insertPhaseLast(StartResetPhase)
-            insertPhaseLast(RoutePhase)
-            insertPhaseLast(RunPhase)
-            insertPhaseLast(GotoLooper)
-            insertPhaseLast(SavePhase)
-        }
-
-        context.setSubject(Subject.GotoPipeline, buildPipeline {
-            insertPhaseLast(GotoRoutePhase)
-            insertPhaseLast(GotoRunPhase)
-        })
+        context[Config.Pipeline] = Config.Pipeline.Default
+        context.setSubject(Subject.GotoPipeline, Subject.GotoPipeline.Default)
     }
 
     public object Config {
-        public object Pipeline : PipelineElement<me.y9san9.pipeline.Pipeline>
+        public object Pipeline : PipelineElement<me.y9san9.pipeline.Pipeline> {
+            public val Default: me.y9san9.pipeline.Pipeline = buildPipeline {
+                insertPhaseLast(RestorePhase)
+                insertPhaseLast(RoutePhase)
+                insertPhaseLast(PrivateMessagePhase)
+                insertPhaseLast(CallbackQueryPhase)
+                insertPhaseLast(RunPhase)
+                insertPhaseLast(GotoLooper)
+                insertPhaseLast(SavePhase)
+            }
+        }
     }
 
     public object Subject {
@@ -49,9 +50,30 @@ public object TelegramUpdateHandlerBase : PipelinePlugin {
         public object Descriptor : PipelineElement<StateDescriptor>
         public object State : PipelineElement<UpdateState>
 
-        public object GotoCommand : PipelineElement<me.y9san9.ksm.telegram.handler.GotoCommand>
-        public object GotoPipeline : PipelineElement<Pipeline>
+        public object GotoContinuation : PipelineElement<me.y9san9.ksm.telegram.state.routing.GotoContinuation>
+        public object GotoCommand : PipelineElement<me.y9san9.ksm.telegram.state.routing.GotoCommand>
+        public object GotoPipeline : PipelineElement<Pipeline> {
+            public val Default: Pipeline = buildPipeline {
+                insertPhaseLast(GotoRoutePhase)
+                insertPhaseLast(GotoRunPhase)
+            }
+        }
 
-        public object Continuation : PipelineElement<UpdateStateContinuation>
+        public object PrivateMessage : PipelineElement<Pipeline> {
+            public val Default: Pipeline = buildPipeline {
+                insertPhaseLast(PrivateMessageStartResetPhase)
+            }
+        }
+        public object PrivateMessageUserId : PipelineElement<UserId>
+        public object PrivateMessageUpdate : PipelineElement<MessageUpdate>
+        public object PrivateMessageData : PipelineElement<PrivateContentMessage<*>>
+
+        public object CallbackQuery : PipelineElement<Pipeline> {
+            public val Default: Pipeline = buildPipeline()
+        }
+        public object CallbackQueryUpdate : PipelineElement<dev.inmo.tgbotapi.types.update.CallbackQueryUpdate>
+        public object CallbackQueryChatId : PipelineElement<ChatIdentifier>
+        public object CallbackQueryMessageId : PipelineElement<MessageId>
+        public object CallbackQueryInlineMessageId : PipelineElement<InlineMessageId>
     }
 }

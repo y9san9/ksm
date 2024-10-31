@@ -1,6 +1,7 @@
 package me.y9san9.ksm.telegram.state
 
 import me.y9san9.ksm.telegram.state.base.UpdateStateBase
+import me.y9san9.pipeline.annotation.PipelineDsl
 import me.y9san9.pipeline.context.MutablePipelineContext
 import me.y9san9.pipeline.context.PipelineContext
 import me.y9san9.pipeline.context.mutablePipelineContextOf

@@ -1,5 +1,6 @@
 import dev.inmo.tgbotapi.extensions.api.telegramBot
 import dev.inmo.tgbotapi.extensions.utils.types.buttons.inlineKeyboard
+import dev.inmo.tgbotapi.utils.buildEntities
 import dev.inmo.tgbotapi.utils.row
 import kotlinx.serialization.json.Json
 import me.y9san9.ksm.telegram.buildTelegramFSM
@@ -11,6 +12,7 @@ import me.y9san9.ksm.telegram.json.goto
 import me.y9san9.ksm.telegram.json.json
 import me.y9san9.ksm.telegram.state.StateName
 import me.y9san9.ksm.telegram.state.routing.goto
+import me.y9san9.ksm.telegram.state.routing.router
 
 suspend fun main() {
     val bot = telegramBot("7405359985:AAEY3Ulvn2l-bMKVv8nMvKUCO7dCyfZfxuI")
@@ -44,15 +46,16 @@ fun CallbackQueryRouting.menuState() = state(MenuInitialState) {
     val yes by CallbackData
     val no by CallbackData
 
-    message {
-        text = "Do you want do delete your Telegram Account?"
-
-        keyboard = inlineKeyboard {
-            row {
-                +yes.button(text = "Yes!")
-                +no.button(text = "No!")
+    transition {
+        editMessage(
+            entities = buildEntities { +"Do you want do delete your Telegram Account?" },
+            replyMarkup = inlineKeyboard {
+                row {
+                    +yes.button(text = "Yes!")
+                    +no.button(text = "No!")
+                }
             }
-        }
+        )
     }
 
     handle {
@@ -64,10 +67,10 @@ fun CallbackQueryRouting.menuState() = state(MenuInitialState) {
         // callbackQuery(ChatId, MessageId?).goto(StateName, StateData)
 
         case(yes) {
-            goto(MenuDeletedState)
+            router.goto(MenuDeletedState)
         }
         case(no) {
-            goto(MenuInitialState)
+            router.goto(MenuInitialState)
         }
     }
 }
@@ -75,7 +78,7 @@ fun CallbackQueryRouting.menuState() = state(MenuInitialState) {
 val MenuDeletedState by StateName
 
 fun CallbackQueryRouting.menuDeletedState() = state(MenuDeletedState) {
-    message {
+    transition {
         text = "Menu deleted!"
     }
 }

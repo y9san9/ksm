@@ -5,6 +5,7 @@ import me.y9san9.ksm.telegram.state.StateName
 import me.y9san9.ksm.telegram.state.name
 import me.y9san9.pipeline.annotation.PipelineDsl
 
+// todo: remove inheritance
 @PipelineDsl
 public open class UpdateRouting {
     @PipelineDsl

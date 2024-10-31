@@ -7,27 +7,23 @@ import dev.inmo.tgbotapi.extensions.utils.extensions.raw.text
 import dev.inmo.tgbotapi.utils.RiskFeature
 import kotlinx.serialization.json.Json
 import me.y9san9.ksm.telegram.buildTelegramFSM
-import me.y9san9.ksm.telegram.callbackQuery.group.callbackQuery
-import me.y9san9.ksm.telegram.callbackQuery.routing.routing
 import me.y9san9.ksm.telegram.json.goto
 import me.y9san9.ksm.telegram.json.json
 import me.y9san9.ksm.telegram.json.receive
 import me.y9san9.ksm.telegram.privateMessage.group.privateMessage
 import me.y9san9.ksm.telegram.privateMessage.routing.PrivateMessageRouting
 import me.y9san9.ksm.telegram.privateMessage.routing.routing
-import me.y9san9.ksm.telegram.privateMessage.state.handle
-import me.y9san9.ksm.telegram.privateMessage.state.message
-import me.y9san9.ksm.telegram.privateMessage.state.state
-import me.y9san9.ksm.telegram.privateMessage.state.transition
+import me.y9san9.ksm.telegram.privateMessage.state.*
 import me.y9san9.ksm.telegram.state.StateName
 import me.y9san9.ksm.telegram.state.bot
 import me.y9san9.ksm.telegram.state.routing.goto
+import me.y9san9.ksm.telegram.state.routing.router
 
 val InitialState by StateName
 
 fun PrivateMessageRouting.initialState() = state(InitialState) {
     handle {
-        goto(StateB)
+        router.goto(StateB)
     }
 }
 
@@ -35,7 +31,7 @@ val StateB by StateName
 
 fun PrivateMessageRouting.stateB() = state(StateB) {
     transition {
-        bot.sendMessage(message.chat, "Enter a number, please:")
+        bot.sendMessage(userId, "Enter a number, please:")
     }
 
     handle {
@@ -46,7 +42,7 @@ fun PrivateMessageRouting.stateB() = state(StateB) {
             return@handle
         }
 
-        goto(StateC, int)
+        router.goto(StateC, int)
     }
 }
 
@@ -54,8 +50,8 @@ val StateC by StateName
 
 fun PrivateMessageRouting.stateC() = state(StateC) {
     transition {
-        val int: Int = receive()
-        bot.reply(message, "Your number incremented: ${int + 1}")
+        val int: Int = router.receive()
+        bot.sendMessage(userId, "Your number incremented: ${int + 1}")
     }
 }
 

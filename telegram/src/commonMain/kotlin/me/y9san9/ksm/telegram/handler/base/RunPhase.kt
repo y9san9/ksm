@@ -1,6 +1,6 @@
 package me.y9san9.ksm.telegram.handler.base
 
-import me.y9san9.ksm.telegram.handler.GotoCommand
+import me.y9san9.ksm.telegram.state.routing.GotoCommand
 import me.y9san9.ksm.telegram.handler.base.TelegramUpdateHandlerBase.Subject
 import me.y9san9.ksm.telegram.state.UpdateHandler
 import me.y9san9.ksm.telegram.state.base.UpdateStateBase
