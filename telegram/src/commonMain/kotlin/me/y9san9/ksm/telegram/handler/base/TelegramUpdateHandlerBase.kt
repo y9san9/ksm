@@ -3,10 +3,15 @@ package me.y9san9.ksm.telegram.handler.base
 import dev.inmo.tgbotapi.bot.TelegramBot
 import dev.inmo.tgbotapi.types.*
 import dev.inmo.tgbotapi.types.message.abstracts.PrivateContentMessage
-import dev.inmo.tgbotapi.types.update.CallbackQueryUpdate
 import dev.inmo.tgbotapi.types.update.MessageUpdate
-import me.y9san9.ksm.telegram.group.TelegramStorage
-import me.y9san9.ksm.telegram.routing.UpdateStateList
+import me.y9san9.ksm.telegram.group.UpdateStorage
+import me.y9san9.ksm.telegram.privateMessage.base.PrivateMessagePhase
+import me.y9san9.ksm.telegram.privateMessage.base.PrivateMessageStartResetPhase
+import me.y9san9.ksm.telegram.routing.base.GotoLooperPhase
+import me.y9san9.ksm.telegram.routing.base.GotoRoutePhase
+import me.y9san9.ksm.telegram.routing.base.GotoRunPhase
+import me.y9san9.ksm.telegram.routing.base.SavePhase
+import me.y9san9.ksm.telegram.state.routing.UpdateStateList
 import me.y9san9.ksm.telegram.state.UpdateState
 import me.y9san9.ksm.telegram.state.routing.StateDescriptor
 import me.y9san9.pipeline.Pipeline
@@ -23,18 +28,22 @@ public object TelegramUpdateHandlerBase : PipelinePlugin {
 
     override fun apply(context: MutablePipelineContext) {
         context[Config.Pipeline] = Config.Pipeline.Default
+
         context.setSubject(Subject.GotoPipeline, Subject.GotoPipeline.Default)
+
+        context.setSubject(Subject.PrivateMessage, Subject.PrivateMessage.Default)
+        context.setSubject(Subject.CallbackQuery, Subject.CallbackQuery.Default)
     }
 
     public object Config {
         public object Pipeline : PipelineElement<me.y9san9.pipeline.Pipeline> {
             public val Default: me.y9san9.pipeline.Pipeline = buildPipeline {
                 insertPhaseLast(RestorePhase)
-                insertPhaseLast(RoutePhase)
+                insertPhaseLast(FindByNamePhase)
                 insertPhaseLast(PrivateMessagePhase)
                 insertPhaseLast(CallbackQueryPhase)
                 insertPhaseLast(RunPhase)
-                insertPhaseLast(GotoLooper)
+                insertPhaseLast(GotoLooperPhase)
                 insertPhaseLast(SavePhase)
             }
         }
@@ -45,7 +54,7 @@ public object TelegramUpdateHandlerBase : PipelinePlugin {
         public object Bot : PipelineElement<TelegramBot>
 
         public object StateList : PipelineElement<UpdateStateList>
-        public object Storage : PipelineElement<TelegramStorage>
+        public object Storage : PipelineElement<UpdateStorage>
 
         public object Descriptor : PipelineElement<StateDescriptor>
         public object State : PipelineElement<UpdateState>

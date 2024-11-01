@@ -25,5 +25,5 @@ public suspend fun StateRouter.goto(
     val subject = buildPipelineContext {
         set(Subject.GotoCommand, GotoCommand(descriptor, transition))
     }
-    context.require(Subject.Continuation).finish(subject)
+    context.require(Subject.GotoContinuation).resumeWith(subject)
 }

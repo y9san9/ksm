@@ -1,8 +1,7 @@
-package me.y9san9.ksm.telegram.routing
+package me.y9san9.ksm.telegram.state.routing
 
 import me.y9san9.ksm.telegram.state.UpdateState
 import me.y9san9.ksm.telegram.state.name
-import me.y9san9.ksm.telegram.state.routing.StateDescriptor
 
 public class UpdateStateList(
     public val initial: UpdateState,

@@ -8,6 +8,7 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import me.y9san9.ksm.telegram.base.TelegramFSMBase
+import me.y9san9.pipeline.annotation.PipelineDsl
 import me.y9san9.pipeline.context.*
 import me.y9san9.pipeline.plugin.install
 import me.y9san9.pipeline.proceed
@@ -39,6 +40,7 @@ public class TelegramFSM(public val context: PipelineContext) {
         return pipeline.proceed(subject = context.subject + subject)
     }
 
+    @PipelineDsl
     public class Builder(context: PipelineContext) {
         public val context: MutablePipelineContext = mutablePipelineContextOf(context)
 

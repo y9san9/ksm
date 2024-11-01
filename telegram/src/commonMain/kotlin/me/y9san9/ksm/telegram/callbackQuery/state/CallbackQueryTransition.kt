@@ -2,34 +2,27 @@ package me.y9san9.ksm.telegram.callbackQuery.state
 
 import dev.inmo.tgbotapi.bot.TelegramBot
 import dev.inmo.tgbotapi.extensions.api.edit.text.editMessageText
-import dev.inmo.tgbotapi.extensions.utils.extensions.raw.inline_message_id
-import dev.inmo.tgbotapi.extensions.utils.extensions.raw.message
 import dev.inmo.tgbotapi.types.ChatIdentifier
 import dev.inmo.tgbotapi.types.InlineMessageId
 import dev.inmo.tgbotapi.types.MessageId
 import dev.inmo.tgbotapi.types.buttons.InlineKeyboardMarkup
-import dev.inmo.tgbotapi.types.inlineMessageIdField
 import dev.inmo.tgbotapi.types.message.textsources.TextSourcesList
-import me.y9san9.ksm.telegram.base.TelegramFSMBase
 import me.y9san9.ksm.telegram.handler.base.TelegramUpdateHandlerBase.Subject
-import me.y9san9.ksm.telegram.state.UpdateTransition
-import me.y9san9.ksm.telegram.state.base.UpdateStateBase
 import me.y9san9.ksm.telegram.state.routing.StateRouter
 import me.y9san9.pipeline.annotation.PipelineDsl
 import me.y9san9.pipeline.context.PipelineContext
 import me.y9san9.pipeline.context.require
-import me.y9san9.pipeline.context.set
 
 public object CallbackQueryTransition {
     @PipelineDsl
     public class Scope(public val context: PipelineContext) {
+
+        @PipelineDsl
+        public val router: StateRouter = StateRouter(context)
+
         @PipelineDsl
         public val bot: TelegramBot
             get() = context.require(Subject.Bot)
-
-        @PipelineDsl
-        public val router: StateRouter
-            get() = StateRouter(context)
 
         /**
          * If [inlineMessageId] is null, [messageId] and [chatId] is not null
@@ -77,11 +70,5 @@ public object CallbackQueryTransition {
                 )
             }
         }
-    }
-}
-
-public fun CallbackQueryState.Builder.transition(block: suspend CallbackQueryTransition.Scope.() -> Unit) {
-    context[UpdateStateBase.Config.Transition] = UpdateTransition { scope ->
-        CallbackQueryTransition.Scope(scope.context).block()
     }
 }

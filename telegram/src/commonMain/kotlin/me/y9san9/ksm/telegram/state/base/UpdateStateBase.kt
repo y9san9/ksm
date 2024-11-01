@@ -7,7 +7,7 @@ import me.y9san9.pipeline.context.PipelineElement
 
 public object UpdateStateBase {
     public object Config {
-        public object Route : PipelineElement<StateName>
+        public object Name : PipelineElement<StateName>
         public object Transition : PipelineElement<UpdateTransition>
         public object Handler : PipelineElement<UpdateHandler>
     }

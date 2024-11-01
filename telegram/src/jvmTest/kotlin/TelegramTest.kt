@@ -12,12 +12,8 @@ import me.y9san9.ksm.telegram.json.json
 import me.y9san9.ksm.telegram.json.receive
 import me.y9san9.ksm.telegram.privateMessage.group.privateMessage
 import me.y9san9.ksm.telegram.privateMessage.routing.PrivateMessageRouting
-import me.y9san9.ksm.telegram.privateMessage.routing.routing
-import me.y9san9.ksm.telegram.privateMessage.state.*
 import me.y9san9.ksm.telegram.state.StateName
-import me.y9san9.ksm.telegram.state.bot
 import me.y9san9.ksm.telegram.state.routing.goto
-import me.y9san9.ksm.telegram.state.routing.router
 
 val InitialState by StateName
 
@@ -52,6 +48,7 @@ fun PrivateMessageRouting.stateC() = state(StateC) {
     transition {
         val int: Int = router.receive()
         bot.sendMessage(userId, "Your number incremented: ${int + 1}")
+        router.goto(StateB)
     }
 }
 

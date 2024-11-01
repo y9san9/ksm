@@ -1,4 +1,4 @@
-package me.y9san9.ksm.telegram.handler.base
+package me.y9san9.ksm.telegram.routing.base
 
 import me.y9san9.ksm.telegram.handler.base.TelegramUpdateHandlerBase.Subject
 import me.y9san9.pipeline.context.require

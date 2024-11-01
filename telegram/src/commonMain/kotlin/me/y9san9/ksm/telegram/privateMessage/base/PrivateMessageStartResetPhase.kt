@@ -1,8 +1,6 @@
-package me.y9san9.ksm.telegram.handler.base
+package me.y9san9.ksm.telegram.privateMessage.base
 
 import dev.inmo.tgbotapi.extensions.utils.extensions.raw.text
-import dev.inmo.tgbotapi.types.message.abstracts.PrivateContentMessage
-import dev.inmo.tgbotapi.types.update.MessageUpdate
 import dev.inmo.tgbotapi.utils.RiskFeature
 import me.y9san9.ksm.telegram.handler.base.TelegramUpdateHandlerBase.Subject
 import me.y9san9.pipeline.context.require

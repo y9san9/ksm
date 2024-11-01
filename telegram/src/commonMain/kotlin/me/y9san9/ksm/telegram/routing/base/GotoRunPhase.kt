@@ -1,9 +1,9 @@
-package me.y9san9.ksm.telegram.handler.base
+package me.y9san9.ksm.telegram.routing.base
 
 import me.y9san9.ksm.telegram.handler.base.TelegramUpdateHandlerBase.Subject
-import me.y9san9.ksm.telegram.state.UpdateHandler
+import me.y9san9.ksm.telegram.state.UpdateTransition
 import me.y9san9.ksm.telegram.state.base.UpdateStateBase
-import me.y9san9.ksm.telegram.state.continuation.UpdateStateContinuation
+import me.y9san9.ksm.telegram.state.routing.GotoContinuation
 import me.y9san9.pipeline.context.*
 import me.y9san9.pipeline.phase.PipelinePhase
 import me.y9san9.pipeline.phase.buildPipelinePhase
@@ -26,15 +26,15 @@ public val GotoRunPhase: PipelinePhase = buildPipelinePhase {
         val transition = state.context.require(UpdateStateBase.Config.Transition)
 
         suspendCoroutine { continuation ->
-            val stateContinuation = UpdateStateContinuation { finishSubject ->
+            val stateContinuation = GotoContinuation { finishSubject ->
                 context += finishSubject
                 continuation.resume(Unit)
                 waitForever()
             }
             val subject = state.context.subject.build {
-                context[Subject.Continuation] = stateContinuation
+                context[Subject.GotoContinuation] = stateContinuation
             } + toPipelineContext()
-            val scope = UpdateHandler.Scope(subject)
+            val scope = UpdateTransition.Scope(subject)
             suspend { transition.run(scope) }.startCoroutine(continuation)
         }
     }

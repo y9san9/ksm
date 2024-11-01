@@ -1,5 +1,6 @@
 package me.y9san9.ksm.telegram.privateMessage.state
 
+import dev.inmo.tgbotapi.bot.TelegramBot
 import dev.inmo.tgbotapi.types.UserId
 import me.y9san9.ksm.telegram.handler.base.TelegramUpdateHandlerBase.Subject
 import me.y9san9.ksm.telegram.state.UpdateTransition
@@ -15,18 +16,14 @@ public object PrivateMessageTransition {
     @PipelineDsl
     public class Scope(public val context: PipelineContext) {
         @PipelineDsl
-        public val router: StateRouter
-            get() = StateRouter(context)
+        public val router: StateRouter = StateRouter(context)
 
         @PipelineDsl
         public val userId: UserId
             get() = context.require(Subject.PrivateMessageUserId)
-    }
-}
 
-@PipelineDsl
-public fun PrivateMessageState.Builder.transition(block: suspend PrivateMessageTransition.Scope.() -> Unit) {
-    context[Config.Transition] = UpdateTransition { scope ->
-        PrivateMessageTransition.Scope(scope.context).block()
+        @PipelineDsl
+        public val bot: TelegramBot
+            get() = context.require(Subject.Bot)
     }
 }

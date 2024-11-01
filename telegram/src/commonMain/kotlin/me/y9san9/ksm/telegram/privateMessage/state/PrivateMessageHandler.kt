@@ -17,12 +17,11 @@ public object PrivateMessageHandler {
     @PipelineDsl
     public class Scope(public val context: PipelineContext) {
         @PipelineDsl
-        public val bot: TelegramBot
-            get() = context.require(Subject.Bot)
+        public val router: StateRouter = StateRouter(context)
 
         @PipelineDsl
-        public val router: StateRouter
-            get() = StateRouter(context)
+        public val bot: TelegramBot
+            get() = context.require(Subject.Bot)
 
         @PipelineDsl
         public val update: MessageUpdate
@@ -35,12 +34,5 @@ public object PrivateMessageHandler {
         @PipelineDsl
         public val user: User
             get() = message.from
-    }
-}
-
-@PipelineDsl
-public fun PrivateMessageState.Builder.handle(block: suspend PrivateMessageHandler.Scope.() -> Unit) {
-    context[UpdateStateBase.Config.Handler] = UpdateHandler { scope ->
-        PrivateMessageHandler.Scope(scope.context).block()
     }
 }

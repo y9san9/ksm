@@ -11,8 +11,8 @@ import me.y9san9.pipeline.phase.buildPipelinePhase
 import me.y9san9.pipeline.phase.name
 import me.y9san9.pipeline.phase.runnable
 
-public val RoutePhase: PipelinePhase = buildPipelinePhase {
-    name = "RoutePhase"
+public val FindByNamePhase: PipelinePhase = buildPipelinePhase {
+    name = "FindByNamePhase"
 
     runnable {
         val states = context.require(Subject.StateList)

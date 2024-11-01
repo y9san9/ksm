@@ -1,4 +1,4 @@
-package me.y9san9.ksm.telegram.handler.base
+package me.y9san9.ksm.telegram.routing.base
 
 import me.y9san9.ksm.telegram.handler.base.TelegramUpdateHandlerBase.Subject
 import me.y9san9.pipeline.context.require
@@ -8,8 +8,8 @@ import me.y9san9.pipeline.phase.name
 import me.y9san9.pipeline.phase.runnable
 import me.y9san9.pipeline.proceedIn
 
-public val GotoLooper: PipelinePhase = buildPipelinePhase {
-    name = "GotoLooper"
+public val GotoLooperPhase: PipelinePhase = buildPipelinePhase {
+    name = "GotoLooperPhase"
 
     runnable {
         while (true) {

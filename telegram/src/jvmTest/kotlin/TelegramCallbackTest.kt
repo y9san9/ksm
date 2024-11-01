@@ -6,13 +6,10 @@ import kotlinx.serialization.json.Json
 import me.y9san9.ksm.telegram.buildTelegramFSM
 import me.y9san9.ksm.telegram.callbackQuery.group.callbackQuery
 import me.y9san9.ksm.telegram.callbackQuery.routing.CallbackQueryRouting
-import me.y9san9.ksm.telegram.callbackQuery.routing.routing
 import me.y9san9.ksm.telegram.callbackQuery.state.*
-import me.y9san9.ksm.telegram.json.goto
 import me.y9san9.ksm.telegram.json.json
 import me.y9san9.ksm.telegram.state.StateName
 import me.y9san9.ksm.telegram.state.routing.goto
-import me.y9san9.ksm.telegram.state.routing.router
 
 suspend fun main() {
     val bot = telegramBot("7405359985:AAEY3Ulvn2l-bMKVv8nMvKUCO7dCyfZfxuI")
@@ -79,6 +76,8 @@ val MenuDeletedState by StateName
 
 fun CallbackQueryRouting.menuDeletedState() = state(MenuDeletedState) {
     transition {
-        text = "Menu deleted!"
+        editMessage(
+            entities = buildEntities { +"Menu deleted!" }
+        )
     }
 }

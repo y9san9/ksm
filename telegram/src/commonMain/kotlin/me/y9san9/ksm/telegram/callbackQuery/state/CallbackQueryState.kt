@@ -1,20 +1,30 @@
 package me.y9san9.ksm.telegram.callbackQuery.state
 
-import me.y9san9.ksm.telegram.callbackQuery.routing.CallbackQueryRouting
 import me.y9san9.ksm.telegram.state.StateName
+import me.y9san9.ksm.telegram.state.UpdateHandler
 import me.y9san9.ksm.telegram.state.UpdateState
-import me.y9san9.ksm.telegram.state.base.UpdateStateBase
+import me.y9san9.ksm.telegram.state.UpdateTransition
 import me.y9san9.pipeline.annotation.PipelineDsl
-import me.y9san9.pipeline.context.set
 
 public object CallbackQueryState {
-    public class Builder : UpdateState.Builder()
-}
+    public class Builder {
+        public val update: UpdateState.Builder = UpdateState.Builder()
 
-@PipelineDsl
-public fun CallbackQueryRouting.state(route: StateName, block: CallbackQueryState.Builder.() -> Unit) {
-    val builder = CallbackQueryState.Builder()
-    builder.context[UpdateStateBase.Config.Route] = route
-    builder.block()
-    states += builder.build()
+        @PipelineDsl
+        public var name: StateName? by update::name
+
+        @PipelineDsl
+        public fun handle(block: suspend CallbackQueryHandler.Scope.() -> Unit) {
+            update.handler = UpdateHandler { scope ->
+                CallbackQueryHandler.Scope(scope.context).block()
+            }
+        }
+
+        @PipelineDsl
+        public fun transition(block: suspend CallbackQueryTransition.Scope.() -> Unit) {
+            update.transition = UpdateTransition { scope ->
+                CallbackQueryTransition.Scope(scope.context).block()
+            }
+        }
+    }
 }

@@ -6,12 +6,10 @@ import dev.inmo.tgbotapi.types.update.MessageUpdate
 import dev.inmo.tgbotapi.types.update.abstracts.Update
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import me.y9san9.ksm.telegram.group.TelegramStorage
-import me.y9san9.ksm.telegram.group.base.UpdateGroupBase
+import me.y9san9.ksm.telegram.group.UpdateStorage
 import me.y9san9.ksm.telegram.state.data.StateData
-import me.y9san9.pipeline.context.set
 
-public interface TelegramPrivateMessageStorage {
+public interface PrivateMessageStorage {
     public suspend fun restore(
         bot: TelegramBot,
         update: MessageUpdate,
@@ -25,7 +23,7 @@ public interface TelegramPrivateMessageStorage {
         data: StateData.Map?
     )
 
-    public class InMemory : TelegramPrivateMessageStorage {
+    public class InMemory : PrivateMessageStorage {
         private val map = mutableMapOf<Long, StateData.Map?>()
         private val mutex = Mutex()
 
@@ -48,16 +46,14 @@ public interface TelegramPrivateMessageStorage {
     }
 }
 
-public var PrivateMessageGroup.Builder.storage: TelegramPrivateMessageStorage
-    @Deprecated("use setter", level = DeprecationLevel.HIDDEN)
-    get() = TODO("use setter")
-    set(value) {
-        context[UpdateGroupBase.Config.Storage] = object : TelegramStorage {
-            override suspend fun restore(bot: TelegramBot, update: Update): StateData.Map? {
-                return value.restore(bot, update as MessageUpdate, update.data as PrivateContentMessage<*>)
-            }
-            override suspend fun save(bot: TelegramBot, update: Update, data: StateData.Map?) {
-                value.save(bot, update as MessageUpdate, update.data as PrivateContentMessage<*>, data)
-            }
+public fun PrivateMessageStorage.toUpdateStorage(): UpdateStorage {
+    val value = this
+    return object : UpdateStorage {
+        override suspend fun restore(bot: TelegramBot, update: Update): StateData.Map? {
+            return value.restore(bot, update as MessageUpdate, update.data as PrivateContentMessage<*>)
+        }
+        override suspend fun save(bot: TelegramBot, update: Update, data: StateData.Map?) {
+            value.save(bot, update as MessageUpdate, update.data as PrivateContentMessage<*>, data)
         }
     }
+}
