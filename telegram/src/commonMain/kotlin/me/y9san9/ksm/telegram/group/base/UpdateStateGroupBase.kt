@@ -11,18 +11,16 @@ import me.y9san9.pipeline.context.set
 import me.y9san9.pipeline.plugin.PipelinePlugin
 
 public object UpdateStateGroupBase : PipelinePlugin {
-    override val name: String = "StateGroupBase"
+    override val name: String = "UpdateStateGroupBase"
+
+    public val Name: PipelineElement<String> by PipelineElement
+    public val Key: PipelineElement<UpdateKey> by PipelineElement
+    public val Filter: PipelineElement<UpdateFilter> by PipelineElement
+    public val AQueue: PipelineElement<AQueue> by PipelineElement
+    public val Storage: PipelineElement<UpdateStorage> by PipelineElement
+    public val StateList: PipelineElement<UpdateStateList> by PipelineElement
 
     override fun apply(context: MutablePipelineContext) {
-        context[Config.AQueue] = AQueue()
-    }
-
-    public object Config {
-        public object Name : PipelineElement<String>
-        public object Key : PipelineElement<UpdateKey>
-        public object Filter : PipelineElement<UpdateFilter>
-        public object AQueue : PipelineElement<me.y9san9.aqueue.AQueue>
-        public object Storage : PipelineElement<UpdateStorage>
-        public object StateList : PipelineElement<UpdateStateList>
+        context[AQueue] = AQueue()
     }
 }

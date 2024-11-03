@@ -13,7 +13,7 @@ public suspend inline fun <reified T> StateRouter.stay(
     data: T,
     transition: Boolean = false
 ): Nothing {
-    val json = context.require(JsonPlugin.Subject.Json) { "Please setup `json` in buildTelegramFSM" }
+    val json = context.require(JsonPlugin.Json) { "Please setup `json` in buildTelegramFSM" }
     val jsonElement = json.encodeToJsonElement(data)
     stay(jsonElement.toStateData(), transition)
 }

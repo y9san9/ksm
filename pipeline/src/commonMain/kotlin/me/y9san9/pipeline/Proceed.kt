@@ -1,6 +1,6 @@
 package me.y9san9.pipeline
 
-import me.y9san9.pipeline.base.PipelineBase.Config
+import me.y9san9.pipeline.base.PipelineBase
 import me.y9san9.pipeline.context.*
 import me.y9san9.pipeline.phase.proceed
 
@@ -15,10 +15,11 @@ public suspend inline fun Pipeline.proceed(
 }
 
 public suspend fun Pipeline.proceed(
-    subject: PipelineContext = PipelineContext.Empty
+    subject: PipelineContext = PipelineContext.Empty,
+    block: MutablePipelineContext.() -> Unit = {}
 ): PipelineContext {
-    var acc = this.context.subject + context.subject + subject
-    val phases = this.context.require(Config.PhaseList)
+    var acc = this.subject + buildPipelineContext(subject, block)
+    val phases = this.context.require(PipelineBase.PhaseList)
 
     for (phase in phases) {
         if (PipelineSignal.Return in acc) {

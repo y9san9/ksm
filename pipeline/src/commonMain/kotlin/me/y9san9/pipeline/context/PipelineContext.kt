@@ -7,7 +7,7 @@ public interface PipelineContext {
     public operator fun contains(element: PipelineElement<*>): Boolean
     public operator fun <T : Any> get(element: PipelineElement<T>): T?
 
-    public companion object Empty : PipelineContext {
+    public object Empty : PipelineContext {
         override fun <T : Any> get(element: PipelineElement<T>): T? = null
         override fun contains(element: PipelineElement<*>): Boolean = false
     }

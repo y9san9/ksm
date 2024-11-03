@@ -3,8 +3,10 @@ package me.y9san9.ksm.telegram.routing
 import dev.inmo.tgbotapi.bot.TelegramBot
 import me.y9san9.ksm.telegram.group.UpdateStorage
 import me.y9san9.ksm.telegram.routing.base.FSMRouterBase
-import me.y9san9.ksm.telegram.routing.base.FSMRouterBase.Config
-import me.y9san9.ksm.telegram.routing.base.FSMRouterBase.Subject
+import me.y9san9.ksm.telegram.routing.base.FSMRouterBase.Bot
+import me.y9san9.ksm.telegram.routing.base.FSMRouterBase.GotoCommand
+import me.y9san9.ksm.telegram.routing.base.FSMRouterBase.Pipeline
+import me.y9san9.ksm.telegram.routing.base.FSMRouterBase.Storage
 import me.y9san9.ksm.telegram.state.routing.GotoCommand
 import me.y9san9.pipeline.Pipeline
 import me.y9san9.pipeline.annotation.PipelineDsl
@@ -17,11 +19,11 @@ import me.y9san9.pipeline.proceed
 //  - fsm.router.privateMessage.goto(groupName: String?, UserId, StateDescriptor)
 //  - fsm.router.callbackQuery.goto(groupName: String, ChatId, MessageId, StateDescriptor)
 public class FSMRouter(public val context: PipelineContext) {
-    public val pipeline: Pipeline get() = context.require(Config.Pipeline)
+    public val pipeline: Pipeline get() = context.require(Pipeline)
 
     public suspend fun goto(command: GotoCommand) {
         pipeline.proceed {
-            context[Subject.GotoCommand] = command
+            context[GotoCommand] = command
         }
     }
 
@@ -30,12 +32,12 @@ public class FSMRouter(public val context: PipelineContext) {
         public val context: MutablePipelineContext = mutablePipelineContextOf(context)
 
         public var bot: TelegramBot?
-            get() = context[Subject.Bot]
-            set(value) { context[Subject.Bot] = value }
+            get() = context[Bot]
+            set(value) { context[Bot] = value }
 
         public var storage: UpdateStorage?
-            get() = context[Subject.Storage]
-            set(value) { context[Subject.Storage] = value }
+            get() = context[Storage]
+            set(value) { context[Storage] = value }
 
         public constructor() : this(PipelineContext.Empty) {
             context.install(FSMRouterBase)

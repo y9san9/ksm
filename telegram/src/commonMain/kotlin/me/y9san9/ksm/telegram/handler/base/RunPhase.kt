@@ -1,16 +1,19 @@
 package me.y9san9.ksm.telegram.handler.base
 
+import me.y9san9.ksm.telegram.handler.base.UpdateHandlerBase.Descriptor
+import me.y9san9.ksm.telegram.handler.base.UpdateHandlerBase.GotoCommand
+import me.y9san9.ksm.telegram.handler.base.UpdateHandlerBase.GotoContinuation
+import me.y9san9.ksm.telegram.handler.base.UpdateHandlerBase.State
 import me.y9san9.ksm.telegram.state.routing.GotoCommand
-import me.y9san9.ksm.telegram.handler.base.TelegramUpdateHandlerBase.Subject
 import me.y9san9.ksm.telegram.state.UpdateHandler
 import me.y9san9.ksm.telegram.state.base.UpdateStateBase
+import me.y9san9.ksm.telegram.state.base.UpdateStateBase.Handler
 import me.y9san9.ksm.telegram.state.routing.GotoContinuation
 import me.y9san9.pipeline.context.*
 import me.y9san9.pipeline.phase.PipelinePhase
 import me.y9san9.pipeline.phase.buildPipelinePhase
 import me.y9san9.pipeline.phase.name
 import me.y9san9.pipeline.phase.runnable
-import me.y9san9.pipeline.subject
 import kotlin.coroutines.resume
 import kotlin.coroutines.startCoroutine
 import kotlin.coroutines.suspendCoroutine
@@ -19,8 +22,8 @@ public val RunPhase: PipelinePhase = buildPipelinePhase {
     name = "RunPhase"
 
     runnable {
-        val state = context.require(Subject.State)
-        val stateHandler = state.context[UpdateStateBase.Config.Handler]
+        val state = context.require(State)
+        val stateHandler = state.context[Handler]
 
         if (stateHandler != null) {
             suspendCoroutine { continuation ->
@@ -29,17 +32,17 @@ public val RunPhase: PipelinePhase = buildPipelinePhase {
                     continuation.resume(Unit)
                     waitForever()
                 }
-                val subject = state.context.subject.build {
-                    context[Subject.GotoContinuation] = stateContinuation
+                val subject = toPipelineContext().build {
+                    context[GotoContinuation] = stateContinuation
                 }
-                val scope = UpdateHandler.Scope(context = toPipelineContext() + subject)
+                val scope = UpdateHandler.Scope(subject)
                 suspend { stateHandler.run(scope) }.startCoroutine(continuation)
             }
         }
 
-        if (Subject.GotoCommand !in context) {
-            val descriptor = context.require(Subject.Descriptor)
-            context[Subject.GotoCommand] = GotoCommand(descriptor, transition = false)
+        if (GotoCommand !in context) {
+            val descriptor = context.require(Descriptor)
+            context[GotoCommand] = GotoCommand(descriptor, transition = false)
         }
     }
 }

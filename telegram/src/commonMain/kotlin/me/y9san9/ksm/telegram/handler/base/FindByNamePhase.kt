@@ -1,6 +1,8 @@
 package me.y9san9.ksm.telegram.handler.base
 
-import me.y9san9.ksm.telegram.handler.base.TelegramUpdateHandlerBase.Subject
+import me.y9san9.ksm.telegram.handler.base.UpdateHandlerBase.Descriptor
+import me.y9san9.ksm.telegram.handler.base.UpdateHandlerBase.State
+import me.y9san9.ksm.telegram.handler.base.UpdateHandlerBase.StateList
 import me.y9san9.ksm.telegram.state.routing.StateDescriptor
 import me.y9san9.ksm.telegram.state.data.StateData
 import me.y9san9.ksm.telegram.state.name
@@ -15,14 +17,14 @@ public val FindByNamePhase: PipelinePhase = buildPipelinePhase {
     name = "FindByNamePhase"
 
     runnable {
-        val states = context.require(Subject.StateList)
-        val descriptor = context[Subject.Descriptor]
+        val states = context.require(StateList)
+        val descriptor = context[Descriptor]
 
         val state = states[descriptor]
-        context[Subject.State] = state
+        context[State] = state
 
         if (descriptor == null) {
-            context[Subject.Descriptor] = StateDescriptor(state.name.string, StateData.Map.Empty, StateData.Null)
+            context[Descriptor] = StateDescriptor(state.name.string, StateData.Map.Empty, StateData.Null)
         }
     }
 }

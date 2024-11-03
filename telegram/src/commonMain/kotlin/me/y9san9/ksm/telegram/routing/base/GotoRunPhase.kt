@@ -1,6 +1,8 @@
 package me.y9san9.ksm.telegram.routing.base
 
-import me.y9san9.ksm.telegram.handler.base.TelegramUpdateHandlerBase.Subject
+import me.y9san9.ksm.telegram.handler.base.UpdateHandlerBase.GotoCommand
+import me.y9san9.ksm.telegram.handler.base.UpdateHandlerBase.GotoContinuation
+import me.y9san9.ksm.telegram.handler.base.UpdateHandlerBase.State
 import me.y9san9.ksm.telegram.state.UpdateTransition
 import me.y9san9.ksm.telegram.state.base.UpdateStateBase
 import me.y9san9.ksm.telegram.state.routing.GotoContinuation
@@ -18,12 +20,12 @@ public val GotoRunPhase: PipelinePhase = buildPipelinePhase {
     name = "GotoRunPhase"
 
     runnable {
-        val command = require(Subject.GotoCommand)
+        val command = require(GotoCommand)
         if (!command.transition) return@runnable
-        context[Subject.GotoCommand] = command.copy(transition = false)
+        context[GotoCommand] = command.copy(transition = false)
 
-        val state = require(Subject.State)
-        val transition = state.context.require(UpdateStateBase.Config.Transition)
+        val state = require(State)
+        val transition = state.context.require(UpdateStateBase.Transition)
 
         suspendCoroutine { continuation ->
             val stateContinuation = GotoContinuation { finishSubject ->
@@ -31,9 +33,9 @@ public val GotoRunPhase: PipelinePhase = buildPipelinePhase {
                 continuation.resume(Unit)
                 waitForever()
             }
-            val subject = state.context.subject.build {
-                context[Subject.GotoContinuation] = stateContinuation
-            } + toPipelineContext()
+            val subject = toPipelineContext().build {
+                context[GotoContinuation] = stateContinuation
+            }
             val scope = UpdateTransition.Scope(subject)
             suspend { transition.run(scope) }.startCoroutine(continuation)
         }

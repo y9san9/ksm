@@ -7,7 +7,10 @@ import dev.inmo.tgbotapi.types.InlineMessageId
 import dev.inmo.tgbotapi.types.MessageId
 import dev.inmo.tgbotapi.types.buttons.InlineKeyboardMarkup
 import dev.inmo.tgbotapi.types.message.textsources.TextSourcesList
-import me.y9san9.ksm.telegram.handler.base.TelegramUpdateHandlerBase.Subject
+import me.y9san9.ksm.telegram.callbackQuery.plugin.CallbackQueryHandlerPlugin.ChatId
+import me.y9san9.ksm.telegram.callbackQuery.plugin.CallbackQueryHandlerPlugin.InlineMessageId
+import me.y9san9.ksm.telegram.callbackQuery.plugin.CallbackQueryHandlerPlugin.MessageId
+import me.y9san9.ksm.telegram.handler.base.UpdateHandlerBase.Bot
 import me.y9san9.ksm.telegram.state.routing.StateRouter
 import me.y9san9.pipeline.annotation.PipelineDsl
 import me.y9san9.pipeline.context.PipelineContext
@@ -22,28 +25,28 @@ public object CallbackQueryTransition {
 
         @PipelineDsl
         public val bot: TelegramBot
-            get() = context.require(Subject.Bot)
+            get() = context.require(Bot)
 
         /**
          * If [inlineMessageId] is null, [messageId] and [chatId] is not null
          */
         @PipelineDsl
         public val chatId: ChatIdentifier?
-            get() = context[Subject.CallbackQueryChatId]
+            get() = context[ChatId]
 
         /**
          * If [inlineMessageId] is null, [messageId] and [chatId] is not null
          */
         @PipelineDsl
         public val messageId: MessageId?
-            get() = context[Subject.CallbackQueryMessageId]
+            get() = context[MessageId]
 
         /**
          * If [inlineMessageId] is null, [messageId] and [chatId] is not null
          */
         @PipelineDsl
         public val inlineMessageId: InlineMessageId?
-            get() = context[Subject.CallbackQueryInlineMessageId]
+            get() = context[InlineMessageId]
 
         @PipelineDsl
         public suspend fun editMessage(

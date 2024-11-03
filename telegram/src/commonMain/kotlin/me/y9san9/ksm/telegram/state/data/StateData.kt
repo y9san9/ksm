@@ -1,6 +1,6 @@
 package me.y9san9.ksm.telegram.state.data
 
-import me.y9san9.ksm.telegram.handler.base.TelegramUpdateHandlerBase.Subject
+import me.y9san9.ksm.telegram.handler.base.UpdateHandlerBase.Descriptor
 import me.y9san9.ksm.telegram.state.routing.StateRouter
 import me.y9san9.pipeline.context.require
 
@@ -33,4 +33,4 @@ public sealed interface StateData {
 }
 
 public val StateRouter.data: StateData
-    get() = context.require(Subject.Descriptor).data
+    get() = context.require(Descriptor).data

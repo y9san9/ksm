@@ -1,6 +1,8 @@
 package me.y9san9.ksm.telegram.routing.base
 
-import me.y9san9.ksm.telegram.routing.base.FSMRouterBase.Subject
+import me.y9san9.ksm.telegram.handler.base.UpdateHandlerBase.Bot
+import me.y9san9.ksm.telegram.handler.base.UpdateHandlerBase.GotoCommand
+import me.y9san9.ksm.telegram.handler.base.UpdateHandlerBase.Storage
 import me.y9san9.ksm.telegram.state.routing.StateDescriptor
 import me.y9san9.pipeline.context.require
 import me.y9san9.pipeline.phase.PipelinePhase
@@ -12,13 +14,12 @@ public val SavePhase: PipelinePhase = buildPipelinePhase {
     name = "SavePhase"
 
     runnable {
-        val descriptor = require(Subject.GotoCommand).descriptor
+        val descriptor = require(GotoCommand).descriptor
 
-        val storage = require(Subject.Storage)
-        val bot = require(Subject.Bot)
+        val storage = require(Storage)
+        val bot = require(Bot)
 
         val data = StateDescriptor.encode(descriptor)
-
-        storage.save(bot, update, data)
+        storage.save(bot, toPipelineContext(), data)
     }
 }

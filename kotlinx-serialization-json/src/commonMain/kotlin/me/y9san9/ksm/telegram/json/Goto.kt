@@ -14,7 +14,7 @@ public suspend inline fun <reified T> StateRouter.goto(
     data: T?,
     transition: Boolean = true
 ): Nothing {
-    val json = context.require(JsonPlugin.Subject.Json) { "Please setup `json` in buildTelegramFSM" }
+    val json = context.require(JsonPlugin.Json) { "Please setup `json` in buildTelegramFSM" }
     val jsonElement = json.encodeToJsonElement(data)
     goto(state, jsonElement.toStateData(), transition)
 }

@@ -7,13 +7,11 @@ import me.y9san9.pipeline.plugin.PipelinePlugin
 public object PipelineBase : PipelinePlugin {
     override val name: String = "PipelineBase"
 
-    override fun apply(context: MutablePipelineContext) {
-        context[Config.PhaseList] = emptyList()
-        context[Config.Subject] = buildPipelineContext()
-    }
+    public val PhaseList: PipelineElement<List<PipelinePhase>> by PipelineElement
+    public val Subject: PipelineElement<PipelineContext> by PipelineElement
 
-    public object Config {
-        public object PhaseList : PipelineElement<List<PipelinePhase>>
-        public object Subject : PipelineElement<PipelineContext>
+    override fun apply(context: MutablePipelineContext) {
+        context[PhaseList] = emptyList()
+        context[Subject] = PipelineContext.Empty
     }
 }

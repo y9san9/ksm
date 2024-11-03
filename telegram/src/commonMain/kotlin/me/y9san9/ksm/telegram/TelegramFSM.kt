@@ -8,13 +8,15 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import me.y9san9.ksm.telegram.base.TelegramFSMBase
+import me.y9san9.pipeline.Pipeline
 import me.y9san9.pipeline.annotation.PipelineDsl
 import me.y9san9.pipeline.context.*
 import me.y9san9.pipeline.plugin.install
 import me.y9san9.pipeline.proceed
-import me.y9san9.pipeline.subject
 
 public class TelegramFSM(public val context: PipelineContext) {
+    public val pipeline: Pipeline = context.require(TelegramFSMBase.Pipeline)
+
     public suspend inline fun longPolling(
         bot: TelegramBot,
         crossinline block: FlowsUpdatesFilter.() -> Unit = {}
@@ -28,16 +30,10 @@ public class TelegramFSM(public val context: PipelineContext) {
     }
 
     public suspend fun run(bot: TelegramBot, messageUpdates: Flow<MessageUpdate>) {
-        val subject = buildPipelineContext {
-            context[TelegramFSMBase.Subject.Bot] = bot
-            context[TelegramFSMBase.Subject.UpdateFlow] = messageUpdates
+        pipeline.proceed {
+            context[TelegramFSMBase.Bot] = bot
+            context[TelegramFSMBase.UpdateFlow] = messageUpdates
         }
-        proceed(subject)
-    }
-
-    public suspend fun proceed(subject: PipelineContext): PipelineContext {
-        val pipeline = context.require(TelegramFSMBase.Config.Pipeline)
-        return pipeline.proceed(subject = context.subject + subject)
     }
 
     @PipelineDsl

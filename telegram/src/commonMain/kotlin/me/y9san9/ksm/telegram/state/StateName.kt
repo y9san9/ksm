@@ -16,4 +16,4 @@ public data class StateName(public val string: String) {
 }
 
 public val UpdateState.name: StateName
-    get() = context.require(UpdateStateBase.Config.Name)
+    get() = context.require(UpdateStateBase.Name)

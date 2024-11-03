@@ -9,7 +9,9 @@ import dev.inmo.tgbotapi.types.message.abstracts.ContentMessage
 import dev.inmo.tgbotapi.types.message.content.MessageContent
 import dev.inmo.tgbotapi.types.update.CallbackQueryUpdate
 import dev.inmo.tgbotapi.utils.RiskFeature
-import me.y9san9.ksm.telegram.handler.base.TelegramUpdateHandlerBase.Subject
+import me.y9san9.ksm.telegram.callbackQuery.plugin.CallbackQueryHandlerPlugin.InlineMessageId
+import me.y9san9.ksm.telegram.callbackQuery.plugin.CallbackQueryHandlerPlugin.Update
+import me.y9san9.ksm.telegram.handler.base.UpdateHandlerBase.Bot
 import me.y9san9.ksm.telegram.state.routing.StateRouter
 import me.y9san9.pipeline.annotation.PipelineDsl
 import me.y9san9.pipeline.context.PipelineContext
@@ -23,11 +25,11 @@ public object CallbackQueryHandler {
 
         @PipelineDsl
         public val bot: TelegramBot
-            get() = context.require(Subject.Bot)
+            get() = context.require(Bot)
 
         @PipelineDsl
         public val update: CallbackQueryUpdate
-            get() = context.require(Subject.CallbackQueryUpdate)
+            get() = context.require(Update)
 
         /**
          * If [message] is null, [inlineMessageId] is not null
@@ -42,7 +44,7 @@ public object CallbackQueryHandler {
          */
         @PipelineDsl
         public val inlineMessageId: InlineMessageId?
-            get() = context[Subject.CallbackQueryInlineMessageId]
+            get() = context[InlineMessageId]
 
         @PipelineDsl
         public val user: User

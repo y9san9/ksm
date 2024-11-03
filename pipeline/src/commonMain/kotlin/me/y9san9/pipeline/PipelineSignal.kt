@@ -8,16 +8,7 @@ public object PipelineSignal {
      *
      * [Return] signal is not present in the resulting context.
      */
-    public object Return : PipelineElement<Return>
-
-    /**
-     * Signals that the next state must be [target].
-     *
-     * States after current state and before target states are still executed
-     */
-    public class Goto(public val target: String) {
-        public companion object : PipelineElement<Goto>
-    }
+    public val Return: PipelineElement<Unit> by PipelineElement
 
     /**
      * Signals that current pipeline is completed with error.
@@ -25,5 +16,5 @@ public object PipelineSignal {
      *
      * [Throw] signal is present in the resulting context.
      */
-    public object Throw : PipelineElement<Throw>
+    public val Throw: PipelineElement<Unit> by PipelineElement
 }
