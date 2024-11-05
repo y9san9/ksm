@@ -9,8 +9,8 @@ import dev.inmo.tgbotapi.types.message.abstracts.ContentMessage
 import dev.inmo.tgbotapi.types.message.content.MessageContent
 import dev.inmo.tgbotapi.types.update.CallbackQueryUpdate
 import dev.inmo.tgbotapi.utils.RiskFeature
-import me.y9san9.ksm.telegram.callbackQuery.plugin.CallbackQueryHandlerPlugin.InlineMessageId
-import me.y9san9.ksm.telegram.callbackQuery.plugin.CallbackQueryHandlerPlugin.Update
+import me.y9san9.ksm.telegram.callbackQuery.plugin.CallbackQueryPlugin.InlineMessageId
+import me.y9san9.ksm.telegram.callbackQuery.plugin.CallbackQueryPlugin.Update
 import me.y9san9.ksm.telegram.handler.base.UpdateHandlerBase.Bot
 import me.y9san9.ksm.telegram.state.routing.StateRouter
 import me.y9san9.pipeline.annotation.PipelineDsl

@@ -9,10 +9,9 @@ import me.y9san9.ksm.telegram.handler.base.UpdateHandlerBase
 import me.y9san9.pipeline.*
 import me.y9san9.pipeline.context.MutablePipelineContext
 import me.y9san9.pipeline.context.PipelineElement
-import me.y9san9.pipeline.context.set
 import me.y9san9.pipeline.plugin.PipelinePlugin
 
-public object CallbackQueryHandlerPlugin : PipelinePlugin {
+public data object CallbackQueryPlugin : PipelinePlugin {
     override val name: String = "CallbackQueryHandlerPlugin"
 
     public val Pipeline: PipelineElement<Pipeline> by PipelineElement
@@ -24,7 +23,7 @@ public object CallbackQueryHandlerPlugin : PipelinePlugin {
     private val defaultPipeline = buildPipeline()
 
     override fun apply(context: MutablePipelineContext) {
-        context[UpdateHandlerBase.Pipeline] = context[UpdateHandlerBase.Pipeline].build {
+        context.set(UpdateHandlerBase.Pipeline) {
             setSubject(Pipeline, defaultPipeline)
 
             insertPhaseBefore(RunPhase, CallbackQueryPhase)

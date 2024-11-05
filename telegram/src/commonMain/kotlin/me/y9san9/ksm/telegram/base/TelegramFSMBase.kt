@@ -15,7 +15,7 @@ import me.y9san9.pipeline.insertPhaseLast
 import me.y9san9.pipeline.plugin.PipelinePlugin
 import me.y9san9.pipeline.setSubject
 
-public object TelegramFSMBase : PipelinePlugin {
+public data object TelegramFSMBase : PipelinePlugin {
     override val name: String = "TelegramFSMBase"
 
     public val Pipeline: PipelineElement<Pipeline> by PipelineElement

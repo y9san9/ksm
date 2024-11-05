@@ -4,9 +4,9 @@ import dev.inmo.tgbotapi.bot.TelegramBot
 import me.y9san9.ksm.telegram.group.UpdateStorage
 import me.y9san9.ksm.telegram.routing.base.FSMRouterBase
 import me.y9san9.ksm.telegram.routing.base.FSMRouterBase.Bot
-import me.y9san9.ksm.telegram.routing.base.FSMRouterBase.GotoCommand
 import me.y9san9.ksm.telegram.routing.base.FSMRouterBase.Pipeline
 import me.y9san9.ksm.telegram.routing.base.FSMRouterBase.Storage
+import me.y9san9.ksm.telegram.state.base.UpdateStateBase.GotoCommand
 import me.y9san9.ksm.telegram.state.routing.GotoCommand
 import me.y9san9.pipeline.Pipeline
 import me.y9san9.pipeline.annotation.PipelineDsl
@@ -51,7 +51,7 @@ public class FSMRouter(public val context: PipelineContext) {
 
 public inline fun buildFSMRouter(
     from: FSMRouter? = null,
-    block: FSMRouter.Builder.() -> Unit
+    block: FSMRouter.Builder.() -> Unit = {}
 ): FSMRouter {
     val builder = when (from) {
         null -> FSMRouter.Builder()
@@ -61,6 +61,9 @@ public inline fun buildFSMRouter(
     return builder.build()
 }
 
-public inline fun FSMRouter?.build(block: FSMRouter.Builder.() -> Unit): FSMRouter {
-    return buildFSMRouter(from = this, block = block)
+public inline fun MutablePipelineContext.set(
+    element: PipelineElement<FSMRouter>,
+    block: FSMRouter.Builder.() -> Unit
+) {
+    context[element] = buildFSMRouter(context[element], block)
 }

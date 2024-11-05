@@ -5,11 +5,9 @@ import dev.inmo.tgbotapi.types.update.MessageUpdate
 import me.y9san9.aqueue.AQueue
 import me.y9san9.ksm.telegram.TelegramFSM
 import me.y9san9.ksm.telegram.group.*
-import me.y9san9.ksm.telegram.group.base.UpdateStateGroupBase
 import me.y9san9.ksm.telegram.privateMessage.routing.PrivateMessageRouting
 import me.y9san9.pipeline.annotation.PipelineDsl
-import me.y9san9.pipeline.context.MutablePipelineContext
-import me.y9san9.pipeline.context.set
+import me.y9san9.pipeline.context.plusAssign
 
 public object PrivateMessageGroup {
     @PipelineDsl

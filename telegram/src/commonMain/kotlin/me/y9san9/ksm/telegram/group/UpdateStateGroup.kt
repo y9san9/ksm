@@ -12,13 +12,13 @@ import me.y9san9.ksm.telegram.group.base.UpdateStateGroupBase.StateList
 import me.y9san9.ksm.telegram.group.base.UpdateStateGroupBase.Storage
 import me.y9san9.ksm.telegram.state.routing.UpdateStateList
 import me.y9san9.pipeline.annotation.PipelineDsl
-import me.y9san9.pipeline.build
 import me.y9san9.pipeline.context.*
 import me.y9san9.pipeline.plugin.install
+import me.y9san9.pipeline.set
 import me.y9san9.pipeline.setSubject
 import me.y9san9.pipeline.subject
 
-public class UpdateStateGroup(public val context: PipelineContext) {
+public data class UpdateStateGroup(public val context: PipelineContext) {
 
     @PipelineDsl
     public class Builder {
@@ -55,7 +55,7 @@ public class UpdateStateGroup(public val context: PipelineContext) {
 }
 
 public fun TelegramFSM.Builder.addUpdateStateGroup(group: UpdateStateGroup) {
-    context[Pipeline] = context[Pipeline].build {
+    context.set(Pipeline) {
         setSubject(StateGroups, value = subject.require(StateGroups) + group)
     }
 }

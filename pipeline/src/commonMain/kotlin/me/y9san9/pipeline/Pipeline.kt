@@ -2,6 +2,7 @@ package me.y9san9.pipeline
 
 import me.y9san9.pipeline.base.PipelineBase
 import me.y9san9.pipeline.context.*
+import me.y9san9.pipeline.context.set
 import me.y9san9.pipeline.plugin.install
 
 public data class Pipeline(public val context: PipelineContext) {
@@ -30,6 +31,9 @@ public inline fun buildPipeline(
     return builder.build()
 }
 
-public inline fun Pipeline?.build(block: Pipeline.Builder.() -> Unit = {}): Pipeline {
-    return buildPipeline(base = this, block)
+public inline fun MutablePipelineContext.set(
+    element: PipelineElement<Pipeline>,
+    block: Pipeline.Builder.() -> Unit
+) {
+    context[element] = buildPipeline(context[element], block)
 }

@@ -1,8 +1,8 @@
 package me.y9san9.ksm.telegram.handler.base
 
-import me.y9san9.ksm.telegram.handler.base.UpdateHandlerBase.Descriptor
 import me.y9san9.ksm.telegram.handler.base.UpdateHandlerBase.State
 import me.y9san9.ksm.telegram.handler.base.UpdateHandlerBase.StateList
+import me.y9san9.ksm.telegram.state.base.UpdateStateBase.Descriptor
 import me.y9san9.ksm.telegram.state.routing.StateDescriptor
 import me.y9san9.ksm.telegram.state.data.StateData
 import me.y9san9.ksm.telegram.state.name

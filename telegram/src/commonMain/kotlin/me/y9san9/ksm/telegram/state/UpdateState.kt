@@ -5,7 +5,7 @@ import me.y9san9.pipeline.annotation.PipelineDsl
 import me.y9san9.pipeline.context.*
 import me.y9san9.pipeline.plugin.install
 
-public class UpdateState(public val context: PipelineContext) {
+public data class UpdateState(public val context: PipelineContext) {
 
     @PipelineDsl
     public class Builder {

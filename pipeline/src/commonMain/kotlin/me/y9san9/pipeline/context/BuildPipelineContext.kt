@@ -10,5 +10,8 @@ public inline fun buildPipelineContext(
 }
 
 public inline fun PipelineContext?.build(block: MutablePipelineContext.() -> Unit): PipelineContext {
+    if (this is MutablePipelineContext) {
+        return buildPipelineContext(toPipelineContext(), block)
+    }
     return buildPipelineContext(context = this, block = block)
 }

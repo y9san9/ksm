@@ -2,10 +2,11 @@ package me.y9san9.ksm.telegram.privateMessage.plugin
 
 import dev.inmo.tgbotapi.types.message.abstracts.PrivateContentMessage
 import dev.inmo.tgbotapi.types.update.MessageUpdate
-import me.y9san9.ksm.telegram.handler.base.UpdateHandlerBase.Update
-import me.y9san9.ksm.telegram.privateMessage.plugin.PrivateMessageHandlerPlugin.Message
-import me.y9san9.ksm.telegram.privateMessage.plugin.PrivateMessageHandlerPlugin.Pipeline
-import me.y9san9.ksm.telegram.privateMessage.plugin.PrivateMessageHandlerPlugin.UserId
+import me.y9san9.ksm.telegram.handler.base.UpdateHandlerBase
+import me.y9san9.ksm.telegram.privateMessage.plugin.PrivateMessagePlugin.Message
+import me.y9san9.ksm.telegram.privateMessage.plugin.PrivateMessagePlugin.Pipeline
+import me.y9san9.ksm.telegram.privateMessage.plugin.PrivateMessagePlugin.Update
+import me.y9san9.ksm.telegram.privateMessage.plugin.PrivateMessagePlugin.UserId
 import me.y9san9.pipeline.context.require
 import me.y9san9.pipeline.context.set
 import me.y9san9.pipeline.phase.PipelinePhase
@@ -18,11 +19,12 @@ public val PrivateMessagePhase: PipelinePhase = buildPipelinePhase {
     name = "PrivateMessagePhase"
 
     runnable {
-        val update = context.require(Update) as? MessageUpdate ?: return@runnable
+        val update = require(UpdateHandlerBase.Update) as? MessageUpdate ?: return@runnable
         val data = update.data as? PrivateContentMessage<*> ?: return@runnable
-        context[PrivateMessageHandlerPlugin.Update] = update
+
+        context[Update] = update
         context[Message] = data
         context[UserId] = data.user.id
-        context.require(Pipeline).proceedIn(context)
+        require(Pipeline).proceedIn(context)
     }
 }

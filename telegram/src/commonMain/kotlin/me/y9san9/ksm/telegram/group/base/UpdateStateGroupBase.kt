@@ -10,7 +10,7 @@ import me.y9san9.pipeline.context.PipelineElement
 import me.y9san9.pipeline.context.set
 import me.y9san9.pipeline.plugin.PipelinePlugin
 
-public object UpdateStateGroupBase : PipelinePlugin {
+public data object UpdateStateGroupBase : PipelinePlugin {
     override val name: String = "UpdateStateGroupBase"
 
     public val Name: PipelineElement<String> by PipelineElement

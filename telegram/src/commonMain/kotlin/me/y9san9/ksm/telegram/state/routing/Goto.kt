@@ -1,9 +1,8 @@
 package me.y9san9.ksm.telegram.state.routing
 
-import me.y9san9.ksm.telegram.handler.base.UpdateHandlerBase
-import me.y9san9.ksm.telegram.handler.base.UpdateHandlerBase.GotoCommand
-import me.y9san9.ksm.telegram.handler.base.UpdateHandlerBase.GotoContinuation
 import me.y9san9.ksm.telegram.state.StateName
+import me.y9san9.ksm.telegram.state.base.UpdateStateBase.Continuation
+import me.y9san9.ksm.telegram.state.base.UpdateStateBase.GotoCommand
 import me.y9san9.ksm.telegram.state.data.StateData
 import me.y9san9.pipeline.annotation.PipelineDsl
 import me.y9san9.pipeline.context.buildPipelineContext
@@ -25,7 +24,7 @@ public suspend fun StateRouter.goto(
     transition: Boolean = true
 ): Nothing {
     val subject = buildPipelineContext {
-        set(GotoCommand, GotoCommand(descriptor, transition))
+        context[GotoCommand] = GotoCommand(descriptor, transition)
     }
-    context.require(GotoContinuation).resumeWith(subject)
+    context.require(Continuation).resumeWith(subject)
 }

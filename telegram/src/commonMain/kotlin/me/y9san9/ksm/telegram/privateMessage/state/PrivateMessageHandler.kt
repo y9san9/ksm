@@ -5,8 +5,8 @@ import dev.inmo.tgbotapi.types.chat.User
 import dev.inmo.tgbotapi.types.message.abstracts.PrivateContentMessage
 import dev.inmo.tgbotapi.types.update.MessageUpdate
 import me.y9san9.ksm.telegram.handler.base.UpdateHandlerBase.Bot
-import me.y9san9.ksm.telegram.privateMessage.plugin.PrivateMessageHandlerPlugin.Message
-import me.y9san9.ksm.telegram.privateMessage.plugin.PrivateMessageHandlerPlugin.Update
+import me.y9san9.ksm.telegram.privateMessage.plugin.PrivateMessagePlugin.Message
+import me.y9san9.ksm.telegram.privateMessage.plugin.PrivateMessagePlugin.Update
 import me.y9san9.ksm.telegram.state.routing.StateRouter
 import me.y9san9.pipeline.annotation.PipelineDsl
 import me.y9san9.pipeline.context.PipelineContext

@@ -6,7 +6,7 @@ import dev.inmo.tgbotapi.types.InlineMessageId
 import dev.inmo.tgbotapi.types.MessageId
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import me.y9san9.ksm.telegram.callbackQuery.plugin.CallbackQueryHandlerPlugin
+import me.y9san9.ksm.telegram.callbackQuery.plugin.CallbackQueryPlugin
 import me.y9san9.ksm.telegram.group.UpdateStorage
 import me.y9san9.ksm.telegram.state.data.StateData
 import me.y9san9.pipeline.context.PipelineContext
@@ -61,15 +61,15 @@ public fun CallbackQueryStorage.toUpdateStorage(): UpdateStorage {
 
     return object : UpdateStorage {
         override suspend fun restore(bot: TelegramBot, context: PipelineContext): StateData.Map? {
-            val chatId = context[CallbackQueryHandlerPlugin.ChatId]
-            val messageId = context[CallbackQueryHandlerPlugin.MessageId]
-            val inlineMessageId = context[CallbackQueryHandlerPlugin.InlineMessageId]
+            val chatId = context[CallbackQueryPlugin.ChatId]
+            val messageId = context[CallbackQueryPlugin.MessageId]
+            val inlineMessageId = context[CallbackQueryPlugin.InlineMessageId]
             return value.restore(bot, chatId, messageId, inlineMessageId)
         }
         override suspend fun save(bot: TelegramBot, context: PipelineContext, data: StateData.Map?) {
-            val chatId = context[CallbackQueryHandlerPlugin.ChatId]
-            val messageId = context[CallbackQueryHandlerPlugin.MessageId]
-            val inlineMessageId = context[CallbackQueryHandlerPlugin.InlineMessageId]
+            val chatId = context[CallbackQueryPlugin.ChatId]
+            val messageId = context[CallbackQueryPlugin.MessageId]
+            val inlineMessageId = context[CallbackQueryPlugin.InlineMessageId]
             value.save(bot, chatId, messageId, inlineMessageId, data)
         }
     }

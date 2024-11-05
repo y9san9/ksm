@@ -14,7 +14,7 @@ public suspend inline fun Pipeline.proceed(
     return proceed(buildPipelineContext(block = block))
 }
 
-public suspend fun Pipeline.proceed(
+public suspend inline fun Pipeline.proceed(
     subject: PipelineContext = PipelineContext.Empty,
     block: MutablePipelineContext.() -> Unit = {}
 ): PipelineContext {

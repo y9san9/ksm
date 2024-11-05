@@ -3,7 +3,7 @@ package me.y9san9.ksm.telegram.state.routing
 import me.y9san9.ksm.telegram.state.UpdateState
 import me.y9san9.ksm.telegram.state.name
 
-public class UpdateStateList(
+public data class UpdateStateList(
     public val initial: UpdateState,
     public val states: List<UpdateState>
 ) {

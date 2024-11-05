@@ -5,7 +5,7 @@ import me.y9san9.pipeline.Pipeline
 import me.y9san9.pipeline.context.*
 import me.y9san9.pipeline.plugin.install
 
-public class UpdateHandler(public val context: PipelineContext) {
+public data class UpdateHandler(public val context: PipelineContext) {
     public val pipeline: Pipeline = context.require(UpdateHandlerBase.Pipeline)
 
     public class Builder(context: PipelineContext) {

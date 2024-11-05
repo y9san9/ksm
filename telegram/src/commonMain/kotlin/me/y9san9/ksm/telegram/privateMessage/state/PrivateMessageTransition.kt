@@ -3,8 +3,7 @@ package me.y9san9.ksm.telegram.privateMessage.state
 import dev.inmo.tgbotapi.bot.TelegramBot
 import dev.inmo.tgbotapi.types.UserId
 import me.y9san9.ksm.telegram.handler.base.UpdateHandlerBase.Bot
-import me.y9san9.ksm.telegram.privateMessage.plugin.PrivateMessageHandlerPlugin
-import me.y9san9.ksm.telegram.privateMessage.plugin.PrivateMessageHandlerPlugin.UserId
+import me.y9san9.ksm.telegram.privateMessage.plugin.PrivateMessagePlugin.UserId
 import me.y9san9.ksm.telegram.state.routing.StateRouter
 import me.y9san9.pipeline.annotation.PipelineDsl
 import me.y9san9.pipeline.context.PipelineContext

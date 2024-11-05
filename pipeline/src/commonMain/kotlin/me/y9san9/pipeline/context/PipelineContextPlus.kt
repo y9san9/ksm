@@ -1,5 +1,9 @@
 package me.y9san9.pipeline.context
 
+public operator fun MutablePipelineContext.plusAssign(element: PipelineElement<Unit>) {
+    this[element] = Unit
+}
+
 public operator fun MutablePipelineContext.plusAssign(context: PipelineContext) {
     takeFrom(context = toPipelineContext() + context)
 }

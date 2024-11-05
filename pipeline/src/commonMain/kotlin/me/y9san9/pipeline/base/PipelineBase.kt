@@ -4,7 +4,7 @@ import me.y9san9.pipeline.context.*
 import me.y9san9.pipeline.phase.PipelinePhase
 import me.y9san9.pipeline.plugin.PipelinePlugin
 
-public object PipelineBase : PipelinePlugin {
+public data object PipelineBase : PipelinePlugin {
     override val name: String = "PipelineBase"
 
     public val PhaseList: PipelineElement<List<PipelinePhase>> by PipelineElement

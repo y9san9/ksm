@@ -7,7 +7,7 @@ public interface PipelineContext {
     public operator fun contains(element: PipelineElement<*>): Boolean
     public operator fun <T : Any> get(element: PipelineElement<T>): T?
 
-    public object Empty : PipelineContext {
+    public data object Empty : PipelineContext {
         override fun <T : Any> get(element: PipelineElement<T>): T? = null
         override fun contains(element: PipelineElement<*>): Boolean = false
     }
@@ -22,7 +22,7 @@ public fun <T : Any> PipelineContext.require(
 
 public inline fun <T : Any> PipelineContext.require(
     element: PipelineElement<T>,
-    message: () -> String = { "Element ${element.name} is required. Context: $this" }
+    message: () -> String = { "Element '${element.name}' is required. Context: $this" }
 ): T {
     if (element !in this) error(message())
     return get(element) as T
