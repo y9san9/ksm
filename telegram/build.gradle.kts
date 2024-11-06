@@ -5,9 +5,12 @@ plugins {
 version = libs.versions.ksm.get()
 
 dependencies {
-    commonMainApi(projects.pipeline)
+    commonMainApi(projects.telegram.telegramCore)
+    commonMainImplementation(projects.telegram.telegramPlugin)
+
     commonMainApi(libs.kotlinx.coroutines.core)
     commonMainApi(libs.ktgbotapi)
     commonMainApi(libs.aqueue)
+
     commonTestImplementation(projects.kotlinxSerializationJson)
 }

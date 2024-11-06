@@ -2,8 +2,8 @@ package me.y9san9.ksm.telegram.state
 
 import dev.inmo.tgbotapi.bot.TelegramBot
 import dev.inmo.tgbotapi.types.update.abstracts.Update
-import me.y9san9.ksm.telegram.handler.base.UpdateHandlerBase.Bot
-import me.y9san9.ksm.telegram.handler.base.UpdateHandlerBase.Update
+import me.y9san9.ksm.telegram.plugin.handler.HandlerPlugin.Bot
+import me.y9san9.ksm.telegram.plugin.handler.HandlerPlugin.Update
 import me.y9san9.ksm.telegram.state.routing.StateRouter
 import me.y9san9.pipeline.annotation.PipelineDsl
 import me.y9san9.pipeline.context.PipelineContext

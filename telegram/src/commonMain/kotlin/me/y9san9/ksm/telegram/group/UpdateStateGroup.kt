@@ -2,8 +2,8 @@ package me.y9san9.ksm.telegram.group
 
 import me.y9san9.aqueue.AQueue
 import me.y9san9.ksm.telegram.TelegramFSM
-import me.y9san9.ksm.telegram.base.TelegramFSMBase.Pipeline
-import me.y9san9.ksm.telegram.base.TelegramFSMBase.StateGroups
+import me.y9san9.ksm.telegram.plugin.TelegramPlugin.Pipeline
+import me.y9san9.ksm.telegram.plugin.TelegramPlugin.StateGroupList
 import me.y9san9.ksm.telegram.group.base.UpdateStateGroupBase
 import me.y9san9.ksm.telegram.group.base.UpdateStateGroupBase.AQueue
 import me.y9san9.ksm.telegram.group.base.UpdateStateGroupBase.Filter
@@ -56,6 +56,6 @@ public data class UpdateStateGroup(public val context: PipelineContext) {
 
 public fun TelegramFSM.Builder.addUpdateStateGroup(group: UpdateStateGroup) {
     context.set(Pipeline) {
-        setSubject(StateGroups, value = subject.require(StateGroups) + group)
+        setSubject(StateGroupList, value = subject.require(StateGroupList) + group)
     }
 }

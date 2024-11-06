@@ -3,8 +3,6 @@ package me.y9san9.ksm.telegram.routing.base
 import dev.inmo.tgbotapi.bot.TelegramBot
 import me.y9san9.ksm.telegram.group.UpdateStorage
 import me.y9san9.ksm.telegram.state.UpdateState
-import me.y9san9.ksm.telegram.state.routing.GotoCommand
-import me.y9san9.ksm.telegram.state.routing.StateDescriptor
 import me.y9san9.ksm.telegram.state.routing.UpdateStateList
 import me.y9san9.pipeline.Pipeline
 import me.y9san9.pipeline.buildPipeline

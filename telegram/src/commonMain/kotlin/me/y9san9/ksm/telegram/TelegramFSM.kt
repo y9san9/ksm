@@ -7,7 +7,7 @@ import dev.inmo.tgbotapi.updateshandlers.FlowsUpdatesFilter
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
-import me.y9san9.ksm.telegram.base.TelegramFSMBase
+import me.y9san9.ksm.telegram.plugin.TelegramPlugin
 import me.y9san9.pipeline.Pipeline
 import me.y9san9.pipeline.annotation.PipelineDsl
 import me.y9san9.pipeline.context.*
@@ -15,7 +15,7 @@ import me.y9san9.pipeline.plugin.install
 import me.y9san9.pipeline.proceed
 
 public class TelegramFSM(public val context: PipelineContext) {
-    public val pipeline: Pipeline = context.require(TelegramFSMBase.Pipeline)
+    public val pipeline: Pipeline = context.require(TelegramPlugin.Pipeline)
 
     public suspend inline fun longPolling(
         bot: TelegramBot,
@@ -31,8 +31,8 @@ public class TelegramFSM(public val context: PipelineContext) {
 
     public suspend fun run(bot: TelegramBot, messageUpdates: Flow<MessageUpdate>) {
         pipeline.proceed {
-            context[TelegramFSMBase.Bot] = bot
-            context[TelegramFSMBase.UpdateFlow] = messageUpdates
+            context[TelegramPlugin.Bot] = bot
+            context[TelegramPlugin.UpdateFlow] = messageUpdates
         }
     }
 
@@ -41,7 +41,7 @@ public class TelegramFSM(public val context: PipelineContext) {
         public val context: MutablePipelineContext = mutablePipelineContextOf(context)
 
         public constructor() : this(PipelineContext.Empty) {
-            context.install(TelegramFSMBase)
+            context.install(TelegramPlugin)
         }
 
         public fun build(): TelegramFSM {

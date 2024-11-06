@@ -6,8 +6,8 @@ import dev.inmo.tgbotapi.types.update.MessageUpdate
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import me.y9san9.ksm.telegram.group.UpdateStorage
-import me.y9san9.ksm.telegram.privateMessage.plugin.PrivateMessagePlugin.Message
-import me.y9san9.ksm.telegram.privateMessage.plugin.PrivateMessagePlugin.Update
+import me.y9san9.ksm.telegram.plugin.handler.privateMessage.PrivateMessagePlugin.Message
+import me.y9san9.ksm.telegram.plugin.handler.privateMessage.PrivateMessagePlugin.Update
 import me.y9san9.ksm.telegram.state.data.StateData
 import me.y9san9.pipeline.context.PipelineContext
 import me.y9san9.pipeline.context.require

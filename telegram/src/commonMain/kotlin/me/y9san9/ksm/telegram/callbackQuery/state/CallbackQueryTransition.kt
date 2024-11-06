@@ -7,10 +7,10 @@ import dev.inmo.tgbotapi.types.InlineMessageId
 import dev.inmo.tgbotapi.types.MessageId
 import dev.inmo.tgbotapi.types.buttons.InlineKeyboardMarkup
 import dev.inmo.tgbotapi.types.message.textsources.TextSourcesList
-import me.y9san9.ksm.telegram.callbackQuery.plugin.CallbackQueryPlugin.ChatId
-import me.y9san9.ksm.telegram.callbackQuery.plugin.CallbackQueryPlugin.InlineMessageId
-import me.y9san9.ksm.telegram.callbackQuery.plugin.CallbackQueryPlugin.MessageId
-import me.y9san9.ksm.telegram.handler.base.UpdateHandlerBase.Bot
+import me.y9san9.ksm.telegram.plugin.handler.callbackQuery.CallbackQueryPlugin.ChatId
+import me.y9san9.ksm.telegram.plugin.handler.callbackQuery.CallbackQueryPlugin.InlineMessageId
+import me.y9san9.ksm.telegram.plugin.handler.callbackQuery.CallbackQueryPlugin.MessageId
+import me.y9san9.ksm.telegram.plugin.handler.HandlerPlugin.Bot
 import me.y9san9.ksm.telegram.state.routing.StateRouter
 import me.y9san9.pipeline.annotation.PipelineDsl
 import me.y9san9.pipeline.context.PipelineContext

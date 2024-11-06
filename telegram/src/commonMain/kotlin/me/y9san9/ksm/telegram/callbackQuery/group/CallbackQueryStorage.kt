@@ -6,7 +6,7 @@ import dev.inmo.tgbotapi.types.InlineMessageId
 import dev.inmo.tgbotapi.types.MessageId
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import me.y9san9.ksm.telegram.callbackQuery.plugin.CallbackQueryPlugin
+import me.y9san9.ksm.telegram.plugin.handler.callbackQuery.CallbackQueryPlugin
 import me.y9san9.ksm.telegram.group.UpdateStorage
 import me.y9san9.ksm.telegram.state.data.StateData
 import me.y9san9.pipeline.context.PipelineContext

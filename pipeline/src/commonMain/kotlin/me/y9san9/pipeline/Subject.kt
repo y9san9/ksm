@@ -9,6 +9,7 @@ public val Pipeline.subject: PipelineContext
 public val Pipeline.Builder.subject: PipelineContext
     get() = context.require(PipelineBase.Subject)
 
+// todo: try to make subject MutablePipelineContext
 public fun <T : Any> Pipeline.Builder.setSubject(
     element: PipelineElement<T>,
     value: T

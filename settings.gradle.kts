@@ -20,7 +20,10 @@ dependencyResolutionManagement {
 includeBuild("build-logic")
 
 include(
-    "pipeline", "telegram", "kotlinx-serialization-json"
+    "pipeline",
+    "telegram:telegram-plugin",
+    "telegram:telegram-core",
+    "kotlinx-serialization-json"
 )
 
 // Deprecated

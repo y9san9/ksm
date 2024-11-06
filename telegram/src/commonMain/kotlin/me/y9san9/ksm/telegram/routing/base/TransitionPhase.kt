@@ -1,7 +1,7 @@
 package me.y9san9.ksm.telegram.routing.base
 
 import me.y9san9.ksm.telegram.routing.base.FSMRouterBase.State
-import me.y9san9.ksm.telegram.state.StateContinuation
+import me.y9san9.ksm.telegram.plugin.transition.GotoContinuation
 import me.y9san9.ksm.telegram.state.UpdateTransition
 import me.y9san9.ksm.telegram.state.base.UpdateStateBase
 import me.y9san9.ksm.telegram.state.base.UpdateStateBase.Continuation
@@ -27,7 +27,7 @@ public val GotoRunPhase: PipelinePhase = buildPipelinePhase {
         val transition = state.context.require(UpdateStateBase.Transition)
 
         suspendCoroutine { continuation ->
-            val stateContinuation = StateContinuation { finishSubject ->
+            val stateContinuation = GotoContinuation { finishSubject ->
                 context += finishSubject
                 continuation.resume(Unit)
                 waitForever()

@@ -7,7 +7,6 @@ import me.y9san9.ksm.telegram.TelegramFSM
 import me.y9san9.ksm.telegram.group.*
 import me.y9san9.ksm.telegram.privateMessage.routing.PrivateMessageRouting
 import me.y9san9.pipeline.annotation.PipelineDsl
-import me.y9san9.pipeline.context.plusAssign
 
 public object PrivateMessageGroup {
     @PipelineDsl
@@ -45,10 +44,10 @@ public object PrivateMessageGroup {
 
 @PipelineDsl
 public inline fun TelegramFSM.Builder.privateMessage(block: PrivateMessageGroup.Builder.() -> Unit) {
-    val builder = PrivateMessageGroup.Builder()
+    val builder = me.y9san9.ksm.telegram.plugin.privateMessage.group.PrivateMessageGroup.Builder()
     builder.filter { true }
     builder.key { update -> update.data.chat.id.chatId.long }
-    builder.storage = PrivateMessageStorage.InMemory()
+    builder.storage = me.y9san9.ksm.telegram.plugin.privateMessage.group.PrivateMessageStorage.InMemory()
     builder.block()
     addUpdateStateGroup(builder.update.build())
 }
