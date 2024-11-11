@@ -7,9 +7,9 @@ import dev.inmo.tgbotapi.utils.RiskFeature
 import me.y9san9.aqueue.AQueue
 import me.y9san9.ksm.telegram.TelegramFSM
 import me.y9san9.ksm.telegram.callbackQuery.routing.CallbackQueryRouting
-import me.y9san9.ksm.telegram.group.UpdateFilter
-import me.y9san9.ksm.telegram.group.UpdateKey
-import me.y9san9.ksm.telegram.group.UpdateStateGroup
+import me.y9san9.ksm.telegram.handler.UpdateFilter
+import me.y9san9.ksm.telegram.handler.UpdateKey
+import me.y9san9.ksm.telegram.group.StateGroup
 import me.y9san9.ksm.telegram.group.addUpdateStateGroup
 import me.y9san9.pipeline.annotation.PipelineDsl
 
@@ -17,7 +17,7 @@ public object CallbackQueryGroup {
 
     @PipelineDsl
     public class Builder {
-        public val update: UpdateStateGroup.Builder = UpdateStateGroup.Builder()
+        public val update: StateGroup.Builder = StateGroup.Builder()
 
         public var aqueue: AQueue? by update::aqueue
 

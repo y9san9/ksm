@@ -6,8 +6,8 @@ import dev.inmo.tgbotapi.types.InlineMessageId
 import dev.inmo.tgbotapi.types.MessageId
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import me.y9san9.ksm.telegram.plugin.handler.callbackQuery.CallbackQueryPlugin
-import me.y9san9.ksm.telegram.group.UpdateStorage
+import me.y9san9.ksm.telegram.callbackQuery.CallbackQueryPlugin
+import me.y9san9.ksm.telegram.group.TelegramStorage
 import me.y9san9.ksm.telegram.state.data.StateData
 import me.y9san9.pipeline.context.PipelineContext
 
@@ -56,10 +56,10 @@ public interface CallbackQueryStorage {
     }
 }
 
-public fun CallbackQueryStorage.toUpdateStorage(): UpdateStorage {
+public fun CallbackQueryStorage.toUpdateStorage(): TelegramStorage {
     val value = this
 
-    return object : UpdateStorage {
+    return object : TelegramStorage {
         override suspend fun restore(bot: TelegramBot, context: PipelineContext): StateData.Map? {
             val chatId = context[CallbackQueryPlugin.ChatId]
             val messageId = context[CallbackQueryPlugin.MessageId]

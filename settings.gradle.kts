@@ -21,12 +21,8 @@ includeBuild("build-logic")
 
 include(
     "pipeline",
-    "telegram:telegram-plugin",
+    "telegram",
     "telegram:telegram-core",
+    "telegram:telegram-private-message",
     "kotlinx-serialization-json"
 )
-
-// Deprecated
-//include(
-//    "core", "ktgbotapi",
-//)

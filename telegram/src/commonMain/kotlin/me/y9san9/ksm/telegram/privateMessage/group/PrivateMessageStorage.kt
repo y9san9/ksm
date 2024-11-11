@@ -5,9 +5,9 @@ import dev.inmo.tgbotapi.types.message.abstracts.PrivateContentMessage
 import dev.inmo.tgbotapi.types.update.MessageUpdate
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import me.y9san9.ksm.telegram.group.UpdateStorage
-import me.y9san9.ksm.telegram.plugin.handler.privateMessage.PrivateMessagePlugin.Message
-import me.y9san9.ksm.telegram.plugin.handler.privateMessage.PrivateMessagePlugin.Update
+import me.y9san9.ksm.telegram.group.TelegramStorage
+import me.y9san9.ksm.telegram.privateMessage.PrivateMessagePlugin.Message
+import me.y9san9.ksm.telegram.privateMessage.PrivateMessagePlugin.Update
 import me.y9san9.ksm.telegram.state.data.StateData
 import me.y9san9.pipeline.context.PipelineContext
 import me.y9san9.pipeline.context.require
@@ -49,10 +49,10 @@ public interface PrivateMessageStorage {
     }
 }
 
-public fun PrivateMessageStorage.toUpdateStorage(): UpdateStorage {
+public fun PrivateMessageStorage.toUpdateStorage(): TelegramStorage {
     val value = this
 
-    return object : UpdateStorage {
+    return object : TelegramStorage {
         override suspend fun restore(bot: TelegramBot, context: PipelineContext): StateData.Map? {
             val update = context.require(Update)
             val message = context.require(Message)

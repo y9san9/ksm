@@ -1,53 +1,68 @@
 package me.y9san9.ksm.telegram.privateMessage.group
 
-import dev.inmo.tgbotapi.types.message.abstracts.PrivateContentMessage
-import dev.inmo.tgbotapi.types.update.MessageUpdate
-import me.y9san9.aqueue.AQueue
-import me.y9san9.ksm.telegram.TelegramFSM
-import me.y9san9.ksm.telegram.group.*
-import me.y9san9.ksm.telegram.privateMessage.routing.PrivateMessageRouting
+import me.y9san9.ksm.telegram.group.StateGroup
 import me.y9san9.pipeline.annotation.PipelineDsl
+import me.y9san9.pipeline.context.MutablePipelineContext
+import me.y9san9.pipeline.context.PipelineContext
+import me.y9san9.pipeline.context.PipelineElement
+import me.y9san9.pipeline.context.mutablePipelineContextOf
+import me.y9san9.pipeline.context.require
+import me.y9san9.pipeline.context.set
+import me.y9san9.pipeline.plugin.PipelinePlugin
+import me.y9san9.pipeline.plugin.install
 
-public object PrivateMessageGroup {
+public class PrivateMessageGroup(override val context: PipelineContext) : StateGroup {
+    public val filter: PrivateMessageFilter get() = context.require(Filter)
+    public val key: PrivateMessageKey get() = context.require(Key)
+
     @PipelineDsl
-    public class Builder {
-        public val update: UpdateStateGroup.Builder = UpdateStateGroup.Builder()
+    public class Builder(context: PipelineContext) : StateGroup.Builder {
+        override val context: MutablePipelineContext = mutablePipelineContextOf(context)
 
-        public var aqueue: AQueue? by update::aqueue
+        public var filter: PrivateMessageFilter
+            get() = context.require(Filter)
+            set(value) { context[Filter] = value }
 
-        @PipelineDsl
-        public inline fun key(crossinline block: suspend (MessageUpdate) -> Any?) {
-            update.key = UpdateKey { update -> block(update as MessageUpdate) }
+        public var key: PrivateMessageKey
+            get() = context.require(Key)
+            set(value) { context[Key] = value }
+
+        public constructor() : this(PipelineContext.Empty) {
+            context.install(PrivateMessageGroup)
         }
 
-        @PipelineDsl
-        public inline fun filter(crossinline block: (MessageUpdate) -> Boolean) {
-            update.filter = UpdateFilter { update ->
-                update is MessageUpdate && update.data is PrivateContentMessage<*> && block(update)
-            }
+        public fun build(): PrivateMessageGroup {
+            return PrivateMessageGroup(context.toPipelineContext())
         }
+    }
 
-        @PipelineDsl
-        public var storage: PrivateMessageStorage
-            @Deprecated("use setter", level = DeprecationLevel.HIDDEN)
-            get() = TODO("use setter")
-            set(value) { update.storage = value.toUpdateStorage() }
+    public companion object Plugin : PipelinePlugin {
+        override val name: String = "PrivateMessageGroup"
 
-        @PipelineDsl
-        public fun routing(block: PrivateMessageRouting.() -> Unit) {
-            val routing = PrivateMessageRouting()
-            routing.block()
-            update.stateList = routing.update.toStateList()
+        public val Filter: PipelineElement<PrivateMessageFilter> by PipelineElement
+        public val Key: PipelineElement<PrivateMessageKey> by PipelineElement
+
+        override fun apply(context: MutablePipelineContext) {
+            context.install(StateGroup)
         }
     }
 }
 
-@PipelineDsl
-public inline fun TelegramFSM.Builder.privateMessage(block: PrivateMessageGroup.Builder.() -> Unit) {
-    val builder = me.y9san9.ksm.telegram.plugin.privateMessage.group.PrivateMessageGroup.Builder()
-    builder.filter { true }
-    builder.key { update -> update.data.chat.id.chatId.long }
-    builder.storage = me.y9san9.ksm.telegram.plugin.privateMessage.group.PrivateMessageStorage.InMemory()
+public inline fun buildPrivateMessageGroup(
+    from: PrivateMessageGroup? = null,
+    block: PrivateMessageGroup.Builder.() -> Unit = {}
+): PrivateMessageGroup {
+    val builder = when (from) {
+        null -> PrivateMessageGroup.Builder()
+        else -> PrivateMessageGroup.Builder(from.context)
+    }
     builder.block()
-    addUpdateStateGroup(builder.update.build())
+    return builder.build()
+}
+
+public fun MutablePipelineContext.set(
+    element: PipelineElement<PrivateMessageGroup>,
+    block: PrivateMessageGroup.Builder.() -> Unit
+): PrivateMessageGroup {
+    return buildPrivateMessageGroup(context[element], block)
 }

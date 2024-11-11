@@ -1,7 +1,6 @@
 package me.y9san9.pipeline
 
 import me.y9san9.pipeline.phase.*
-import me.y9san9.pipeline.phase.name
 
 public fun Pipeline.Builder.insertPhaseAfter(
     which: PipelinePhase,

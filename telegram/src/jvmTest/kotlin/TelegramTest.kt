@@ -10,7 +10,6 @@ import me.y9san9.ksm.telegram.buildTelegramFSM
 import me.y9san9.ksm.telegram.json.goto
 import me.y9san9.ksm.telegram.json.json
 import me.y9san9.ksm.telegram.json.receive
-import me.y9san9.ksm.telegram.privateMessage.group.privateMessage
 import me.y9san9.ksm.telegram.privateMessage.routing.PrivateMessageRouting
 import me.y9san9.ksm.telegram.state.StateName
 import me.y9san9.ksm.telegram.state.routing.goto
@@ -18,8 +17,10 @@ import me.y9san9.ksm.telegram.state.routing.goto
 val InitialState by StateName
 
 fun PrivateMessageRouting.initialState() = state(InitialState) {
+    name = InitialState
+
     handle {
-        router.goto(StateB)
+        goto(StateB)
     }
 }
 
@@ -38,7 +39,7 @@ fun PrivateMessageRouting.stateB() = state(StateB) {
             return@handle
         }
 
-        router.goto(StateC, int)
+        goto(StateC, int)
     }
 }
 
@@ -46,9 +47,9 @@ val StateC by StateName
 
 fun PrivateMessageRouting.stateC() = state(StateC) {
     transition {
-        val int: Int = router.receive()
+        val int: Int = receive()
         bot.sendMessage(userId, "Your number incremented: ${int + 1}")
-        router.goto(StateB)
+        goto(StateB)
     }
 }
 

@@ -1,11 +1,12 @@
 package me.y9san9.pipeline.plugin
 
 import me.y9san9.pipeline.context.MutablePipelineContext
+import me.y9san9.pipeline.context.set
 
-public inline fun <T : PipelinePlugin> MutablePipelineContext.install(
-    plugin: T,
-    block: T.() -> Unit
+public fun MutablePipelineContext.install(
+    plugin: PipelinePlugin
 ) {
-    install(plugin)
-    block(plugin)
+    if (plugin in context) error("Cannot install plugin '${plugin.name}' twice")
+    this[plugin] = Unit
+    plugin.apply(context = this)
 }

@@ -18,6 +18,9 @@ public interface PipelineElement<@Suppress("unused") T : Any> {
             property: KProperty<*>
         ): Delegate {
             thisRef ?: return Delegate(property.name)
+            if (thisRef is PipelineElement<*>) {
+                return Delegate(name = "${property.name}@${thisRef.name}")
+            }
             return Delegate(name = "${property.name}@$thisRef")
         }
     }

@@ -64,10 +64,10 @@ fun CallbackQueryRouting.menuState() = state(MenuInitialState) {
         // callbackQuery(ChatId, MessageId?).goto(StateName, StateData)
 
         case(yes) {
-            router.goto(MenuDeletedState)
+            goto(MenuDeletedState)
         }
         case(no) {
-            router.goto(MenuInitialState)
+            goto(MenuInitialState)
         }
     }
 }
