@@ -1,5 +1,6 @@
 package me.y9san9.ksm.telegram.handler
 
+import me.y9san9.aqueue.AQueue
 import me.y9san9.pipeline.Pipeline
 import me.y9san9.pipeline.context.MutablePipelineContext
 import me.y9san9.pipeline.context.PipelineContext
@@ -27,6 +28,10 @@ public data class UpdateHandler(public val context: PipelineContext) {
         override val name: String = "UpdateHandler"
 
         public val Pipeline: PipelineElement<Pipeline> by PipelineElement
+        public val Subject: PipelineElement<PipelineContext> by PipelineElement
+        public val Key: PipelineElement<UpdateKey> by PipelineElement
+        public val Filter: PipelineElement<UpdateFilter> by PipelineElement
+        public val AQueue: PipelineElement<AQueue> by PipelineElement
 
         override fun apply(context: MutablePipelineContext) {
             context.set(Pipeline) {

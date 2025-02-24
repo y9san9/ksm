@@ -13,7 +13,7 @@ import me.y9san9.ksm.telegram.group.StateGroup
 import me.y9san9.ksm.telegram.group.addUpdateStateGroup
 import me.y9san9.pipeline.annotation.PipelineDsl
 
-public object CallbackQueryGroup {
+public interface CallbackQueryGroup : StateGroup {
 
     @PipelineDsl
     public class Builder {

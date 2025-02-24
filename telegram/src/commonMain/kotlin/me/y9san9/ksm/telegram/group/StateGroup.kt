@@ -28,14 +28,10 @@ public interface StateGroup {
     public companion object Plugin : PipelinePlugin {
         override val name: String = "StateGroup"
 
-        public val Key: PipelineElement<UpdateKey> by PipelineElement
-        public val Filter: PipelineElement<UpdateFilter> by PipelineElement
         public val AQueue: PipelineElement<AQueue> by PipelineElement
 
         override fun apply(context: MutablePipelineContext) {
             context[AQueue] = AQueue()
-            context[Key] = UpdateKey { null }
-            context[Filter] = UpdateFilter { true }
         }
     }
 }

@@ -14,7 +14,6 @@ import me.y9san9.pipeline.context.set
 import me.y9san9.pipeline.insertPhaseAfter
 import me.y9san9.pipeline.plugin.PipelinePlugin
 import me.y9san9.pipeline.set
-import me.y9san9.pipeline.subject
 
 public data object PrivateMessagePlugin : PipelinePlugin {
     override val name: String = "PrivateMessagePlugin"
@@ -27,9 +26,11 @@ public data object PrivateMessagePlugin : PipelinePlugin {
     public val StateGroupList: PipelineElement<List<PrivateMessageGroup>> by PipelineElement
 
     override fun apply(context: MutablePipelineContext) {
-        context.set(TelegramFSM.Pipeline) {
-            subject[StateGroupList] = context[StateGroupList] ?: emptyList()
+        context.set(TelegramFSM.Subject) {
+            this[StateGroupList] = emptyList()
+        }
 
+        context.set(TelegramFSM.Pipeline) {
             insertPhaseAfter(Setup, SetupPrivateMessage)
             insertPhaseAfter(Register, RegisterPrivateMessage)
         }

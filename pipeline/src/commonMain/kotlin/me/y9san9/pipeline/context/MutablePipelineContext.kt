@@ -1,7 +1,5 @@
 package me.y9san9.pipeline.context
 
-import me.y9san9.pipeline.plugin.PipelinePlugin
-
 public fun mutablePipelineContextOf(context: PipelineContext = PipelineContext.Empty): MutablePipelineContext {
     if (context is MutablePipelineContext) {
         error("This is an error to create MutablePipelineContext with another MutablePipelineContext")

@@ -15,7 +15,10 @@ public class MapPipelineContext(public val map: Map<PipelineElement<*>, *>) : Pi
     override fun toString(): String {
         val entries = map.entries.joinToString(separator = ",\n") { (k, v) ->
             when {
-                v != Unit -> "${k.name}=$v"
+                v != Unit -> when {
+                    v is String -> "${k.name}=\"$v\""
+                    else -> "${k.name}=$v"
+                }
                 k is PipelinePlugin -> "plugin(${k.name})"
                 else -> "$k"
             }

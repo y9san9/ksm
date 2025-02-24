@@ -21,16 +21,16 @@ public val AQueuePhase: PipelinePhase = buildPipelinePhase {
         val handlerList = require(TelegramFSM.HandlerList)
 
         handlerList.asFlow().mapInAQueue { handler ->
-            val group = handler.context.require(TelegramFSM.StateGroup)
+            val subject = handler.context.require(UpdateHandler.Subject)
 
-            val aqueue = group.context.require(StateGroup.AQueue)
-            val filter = group.context.require(StateGroup.Filter)
-            val key = group.context.require(StateGroup.Key)
+            val aqueue = handler.context.require(UpdateHandler.AQueue)
+            val filter = handler.context.require(UpdateHandler.Filter)
+            val key = handler.context.require(UpdateHandler.Key)
 
             updates.filter(filter::filter).mapInAQueue(aqueue, key::key) { update ->
                 val updateContext = build {
                     context[TelegramFSM.Update] = update
-                    context[TelegramFSM.StateGroup] = group
+                    context[UpdateHandler.Subject] = subject
                 }
                 handler.context.require(UpdateHandler.Pipeline).proceed(updateContext)
             }.collect()
